@@ -6,7 +6,7 @@
     项目名称: 特步 小程序
     Author: yml
     Date: 2022.7.8
-    cron: 19 7 * * *    tebu.py
+    cron: 19 7 * * *    tb.py
     new Env("特步");
     ================== 青龙--配置文件 ==================
     变量格式: export tebu_data=" ezr-vuid & ezr-st & ezr-ss & ezr-userid "   ,多账号用 换行 或 @ 分割
