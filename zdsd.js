@@ -19,6 +19,7 @@ export zdcookie='123#456@第二个123#第二个456'
 
 v2p 圈×变量  zdcookie
 */
+const $ = new Env("金典");
 const jsname = '赚点是点'
 const $ = Env(jsname)
 let ck = ($.isNode() ? process.env.zdcookie : $.getdata('zdcookie')) || '';
