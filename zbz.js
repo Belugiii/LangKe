@@ -26,7 +26,7 @@ export zlcookie='123xxx'
 https://kireinasakura.coding.net/p/could/d/there/git/raw/master/zl.js
 */
 
-const $ = new Env("走路");
+const $ = new Env("走步赚");
 let envSplitor = ['\n']
 let httpResult, httpReq, httpResp
 let userCookie = ($.isNode() ? process.env.zlcookie : $.getdata('zlcookie')) || '';

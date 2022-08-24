@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*
 '''
-new Env('wskey转换');
+new Env('京东wskey转Cookie');
 '''
 import socket  # 用于端口检测
 import base64  # 用于编解码

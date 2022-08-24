@@ -10,7 +10,7 @@ https://www.chongpar.cn/member/cp-member-integral/add url script-request-header 
 
 */
 
-const $ = new Env("溜ta");
+const $ = new Env("溜溜它");
 
 let envSplitor = ['@']
 let httpResult, httpReq, httpResp

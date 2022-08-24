@@ -6,7 +6,7 @@
 https://json.dd-gz.com/ 域名的任意链接  抓链接末尾token和userid 的值
 
 用#分开两个值
-
+new Env("赚点是点");
 用 @  分割多账户
 
 例如
