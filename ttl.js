@@ -16,7 +16,7 @@ let token = ($.isNode() ? process.env.ttlcookie : $.getdata('ttlcookie')) || '';
 需要两条变量
 下面链接的userid
 https://miniapi.tianwensk.com
-
+new Env("天天乐");
 打卡一次获取openid
 
 抓下面链接的请求体openid
