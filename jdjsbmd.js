@@ -17,9 +17,6 @@ let cookiesArr = [],
 const activityId = 'PiuLvM8vamONsWzC0wqBGQ'
 
 if ($.isNode()) {
-	console.log('\n入口>京东极速版>首页>签到免单')
-	console.log('京东极速版,先下单,第二天开始签到')
-	console.log('请自行测试是否有效！！！')
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
     })
@@ -62,6 +59,7 @@ async function sign_all() {
         return
     }
     msg.push(`【账号${$.index}】${$.nickName || $.UserName}:`);
+    console.log(`【账号${$.index}】${$.nickName || $.UserName}:`);
     await $.wait(3000)
     for (const order of $.signFreeOrderInfoList) {
         // console.debug('now:', order)
@@ -95,16 +93,16 @@ function query() {
                     $.signFreeOrderInfoList = data.data.signFreeOrderInfoList
                     if (data.success == true) {
                         if (!data.data.signFreeOrderInfoList) {
-                            console.log("没有需要签到的商品,请到京东极速版[签到免单]购买商品");
+                            console.log("没有需要签到的商品");
                        
                         } else {
                             $.signFreeOrderInfoList = data.data.signFreeOrderInfoList
                             if (first_flag) {
                                 first_flag = false
-                                console.log("脚本也许随时失效,请注意");
+                                
                                
                                 if (data.data.risk == false) {
-                                    console.log("风控用户,可能有异常");
+
                                    
                                 }
                             }
