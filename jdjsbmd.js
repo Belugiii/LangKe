@@ -34,6 +34,7 @@ const JD_API_HOST = 'https://api.m.jd.com/';
             $.nickName = '';
             message = '';
             first_flag = true
+            console.log(`【账号${$.index}】${$.nickName || $.UserName}:`);
             await sign_all()
         }
     }
@@ -59,7 +60,6 @@ async function sign_all() {
         return
     }
     msg.push(`【账号${$.index}】${$.nickName || $.UserName}:`);
-    console.log(`【账号${$.index}】${$.nickName || $.UserName}:`);
     await $.wait(3000)
     for (const order of $.signFreeOrderInfoList) {
         // console.debug('now:', order)
