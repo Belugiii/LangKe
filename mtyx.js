@@ -34,6 +34,10 @@ request(options, function (error, response) {
 });
 
 console.log("=============================")
+wait(t) {
+            return new Promise(e => setTimeout(e, t))
+}
+wait(5000);
 
 options = {
   'method': 'POST',
