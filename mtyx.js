@@ -1,4 +1,5 @@
 // new Env("美团优选");
+// cron: 13 7,12 * * *
 var request = require('request');
 var options = {
   'method': 'POST',
