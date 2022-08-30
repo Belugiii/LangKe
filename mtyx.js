@@ -34,7 +34,7 @@ request(options, function (error, response) {
 });
 
 console.log("=============================")
-wait(t) {
+function wait(t) {
             return new Promise(e => setTimeout(e, t))
 }
 wait(5000);
