@@ -4,7 +4,7 @@
 */
  const $ = Env('天气情话');
  const notify = $.isNode() ? require('./sendNotify') : '';
- var Notify = 1; //0为关闭通知，1为打开通知,默认为1
+ var Notify = 0; //0为关闭通知，1为打开通知,默认为1
  const debug = 0; //0为关闭调试，1为打开调试,默认为0
  let variables = [];
  let data = '';
@@ -24,7 +24,7 @@ var qinghuaToken = "ZdFqhkgqS4821iG3";          //情话Token
 var WX_appid = "wx96049b4d3b2edd7a";    //测试公众号appid
 var WX_secret = "241d385b0d082860f644a6a7f9238e0f"  //测试公众号secret
 var WX_Token = '';
-var touser = "or-WZ5hhfEJFvBbBONQxNtu7RC7I" //接收的用户微信touser
+var touser = "or-WZ5pY-PKfYLzIl2Tph-_ZnfLc" //接收的用户微信touser
 var template_id = "SrfBnN2UubQ5L8ozw7luMnFUXR_BZNhw-b1p89UtyHk";
 var loveday = new Date('2022-07-24').getTime();
 var loved = '';
@@ -170,6 +170,7 @@ let love = '';  //情话
                  if(result.errmsg == "ok"){
                      msg += "天气情话发送成功";
                  }else{
+                    Notify = 1;
                      msg += "天气情话发送失败";
                  }
              } catch (e) {
