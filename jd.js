@@ -15,7 +15,7 @@
 
  const $ = new Env("金典");
  const notify = $.isNode() ? require("./sendNotify") : "";
- const Notify = 0 		//0为关闭通知,1为打开通知,默认为1
+ var Notify = 0 		//0为关闭通知,1为打开通知,默认为1
  const debug = 0		//0为关闭调试,1为打开调试,默认为0
  //---------------------------------------------------------------------------------------------------------
  let ckStr = ($.isNode() ? process.env.jd_data : $.getdata('jd_data')) || '';
@@ -119,6 +119,7 @@
 			await wait(5);
 		} else {
 			DoubleLog(`查询积分: 失败 ❌ 了呢,原因未知!`);
+			Notify = 1;
 			console.log(result);
 		}
 	} catch (error) {
