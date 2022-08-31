@@ -162,6 +162,7 @@ function login(timeout = 3 * 1000) {
                     loginBack = 1;
                     log(`登录成功`)
                 } else {
+                    Notify = 1;
                     log(`登录获取Token失败，原因是：${result.errMsg}，退出`)
                     loginBack = 0;
                 }
