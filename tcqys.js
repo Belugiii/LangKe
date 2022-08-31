@@ -19,7 +19,7 @@
  const $ = new Env('同程旅行种树');
  const notify = $.isNode() ? require('./sendNotify') : '';
  const {log} = console;
- const Notify = 1; //0为关闭通知，1为打开通知,默认为1
+ var Notify = 0; //0为关闭通知，1为打开通知,默认为1
  const debug = 0; //0为关闭调试，1为打开调试,默认为0
  //////////////////////
  let scriptVersion = "1.0.3";
@@ -115,7 +115,10 @@
  
                  await login();
                  await $.wait(2 * 1000);
-                 msg += `账号[${name}]进度：${progress}%\n`
+                 msg += `账号[${name}]进度：${progress}%\n`;
+                 if (${progress} = 100) {
+                    Notify = 1;
+                 }
  
              }
              await SendMsg(msg);
