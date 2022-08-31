@@ -425,7 +425,7 @@ function giveWater(timeout = 3 * 1000) {
                     progress = progress * 100;
                     progress = progress.toFixed(2);
                     log(`浇水成功，当前果树等级：${result.data.status}级，剩余水滴：${result.data.kettle.water_num}，进度：${progress}%`)
-                    if(${progress} > 99){
+                    if(`${progress}` > 99.99){
                             Notify = 1;
                     }
                     challengeTimes =+ result.data.red_points.challenge.times;

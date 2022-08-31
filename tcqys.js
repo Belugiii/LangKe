@@ -116,7 +116,7 @@
                  await login();
                  await $.wait(2 * 1000);
                  msg += `账号[${name}]进度：${progress}%\n`;
-                 if (${progress} > 99.57) {
+                 if (`${progress}` > 99.57) {
                     Notify = 1;
                  }
  
