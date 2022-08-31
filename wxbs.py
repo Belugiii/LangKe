@@ -7,7 +7,7 @@
 
 '''
 cron:  30 7 * * *
-new Env('小米运动刷步数');
+new Env('微信运动刷步数');
 '''
 
 import requests
@@ -173,21 +173,20 @@ def main_handler(event, context):
     start()
 
 cookies = ""
-step = 25000
 # 获取小米账号
 if "xm_user_password" in os.environ:
-    if len(os.environ["xm_user_password"]) > 1:
-        cookies = os.environ["xm_user_password"]
-        print("已获取并使用环境变量中 xm_user_password")
+    if len(os.environ["xm_up"]) > 1:
+        cookies = os.environ["xm_up"]
+        print("已获取并使用环境变量中 xm_up")
 
 if "xiaomi_step" in os.environ:
-    if len(os.environ["xiaomi_step"]) > 1:
-        step = os.environ["xiaomi_step"]
-        print("已获取并使用环境变量中 xiaomi_step")
+    if len(os.environ["xm_step"]) > 1:
+        step = os.environ["xm_step"]
+        print("已获取并使用环境变量中 xm_step")
 
 if(cookies == ''):
-    print("未获取到环境变量中的 xm_user_password")
-    print("请先添加小米运动账号: 环境变量添加 xm_user_password 值 账号&密码，多个账号 @ 拼接")
+    print("未获取到环境变量中的 xm_up")
+    print("请先添加小米运动账号: 环境变量添加 xm_up 值 账号&密码，多个账号 @ 拼接")
     sys.exit(1)
 
 if(step == ''):
