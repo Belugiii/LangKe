@@ -24,9 +24,9 @@
 const $ = new Env('抖抖果园');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const {log} = console;
-const Notify = 0; //0为关闭通知，1为打开通知,默认为1
+var Notify = 0; //0为关闭通知，1为打开通知,默认为1
 const debug = 0; //0为关闭调试，1为打开调试,默认为0
-const uaNum = 1; //随机UA，从0-20随便选一个填上去
+const uaNum = 15; //随机UA，从0-20随便选一个填上去
 //////////////////////
 let ddgyCk = ($.isNode() ? process.env.ddgyCk : $.getdata("ddgyCk")) || "";
 let UA = ($.isNode() ? process.env.UA : $.getdata("UA")) || "";
@@ -425,6 +425,9 @@ function giveWater(timeout = 3 * 1000) {
                     progress = progress * 100;
                     progress = progress.toFixed(2);
                     log(`浇水成功，当前果树等级：${result.data.status}级，剩余水滴：${result.data.kettle.water_num}，进度：${progress}%`)
+                    if(${progress} > 99){
+                            Notify = 1;
+                    }
                     challengeTimes =+ result.data.red_points.challenge.times;
                     challengeState =+ result.data.red_points.challenge.state;
                     if (boxBack) {
