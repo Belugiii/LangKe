@@ -593,7 +593,6 @@ async function getShareCode() {
   await getSgmh()
   //await getCFD()
   await getJdCash()
-  console.log(`======账号${$.index}结束======\n`)
 }
 
 async function showCode() {
@@ -605,6 +604,42 @@ async function showCode() {
 			process.stdout.write("&");
 		}
 		process.stdout.write(farm[i])	
+	}
+	console.log("种豆得豆互助码:")
+	process.stdout.write("/bean ");
+	for(var i = 0; i < bean.length; i++){
+		if(i==0){
+		}else{
+			process.stdout.write("&");
+		}
+		process.stdout.write(bean[i])	
+	}
+	console.log("东东工厂互助码:")
+	process.stdout.write("/ddfactory ");
+	for(var i = 0; i < ddfactory.length; i++){
+		if(i==0){
+		}else{
+			process.stdout.write("&");
+		}
+		process.stdout.write(ddfactory[i])	
+	}
+	console.log("东东萌宠互助码:")
+	process.stdout.write("/pet ");
+	for(var i = 0; i < pet.length; i++){
+		if(i==0){
+		}else{
+			process.stdout.write("&");
+		}
+		process.stdout.write(pet[i])	
+	}
+	console.log("京喜工厂互助码:")
+	process.stdout.write("/jxfactory ");
+	for(var i = 0; i < jxfactory.length; i++){
+		if(i==0){
+		}else{
+			process.stdout.write("&");
+		}
+		process.stdout.write(jxfactory[i])	
 	}
 }
 
