@@ -1,9 +1,8 @@
 /*
 [Script]
-cron "20 13 * * 5" script-path=jd_get_share_code.js, tag=京东互助码
-
+cron "20 13 * * 5"
  */
-const $ = new Env("获取互助码");
+const $ = new Env("京东互助码");
 const JD_API_HOST = "https://api.m.jd.com/client.action";
 let cookiesArr = [], cookie = '', message;
 var farm = [];
@@ -26,7 +25,6 @@ if ($.isNode()) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
     return;
   }
-  $.log('\n注：临时活动的互助码不添加到此处，如有需要请手动运行对应临时活动脚本\n')
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -600,8 +598,13 @@ async function getShareCode() {
 
 async function showCode() {
 	console.log("东东农场互助码:")
-	for(var item of farm) {
-		console.log(item + "&");
+	process.stdout.write("/farm ");
+	for(var i = 0; i < farm.length; i++){
+		if(i==0){
+		}else{
+			process.stdout.write("&");
+		}
+		process.stdout.write(farm[i])	
 	}
 }
 
