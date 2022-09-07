@@ -1,7 +1,7 @@
 /*
 
 [Script]
-cron "12 7-19/6 * * *"
+cron: 12 7-19/6 * * *
 
 export DO_TEN_WATER_AGAIN = "" 默认再次浇水
 */
