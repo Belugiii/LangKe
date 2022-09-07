@@ -78,7 +78,7 @@
 		 let url = {
 			 url: `${hostname}/syj-wechat-api/signin/signIn?userId=${ck[0]}&activityId=undefined`,
 			 headers: {
-                 'User-Agent': 'Mozilla/5.0 (Linux; Android 12; 22041211AC Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.99 XWEB/3171 MMWEBSDK/20220303 Mobile Safari/537.36 MMWEBID/3644 MicroMessenger/8.0.21.2103(0x28001541) Process/appbrand0 WeChat/arm64 Weixin GPVersion/1 NetType/WIFI Language/zh_CN ABI/arm64 MiniProgramEnv/android',
+                 'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.99 XWEB/4309 MMWEBSDK/20220709 Mobile Safari/537.36 MMWEBID/1338 MicroMessenger/8.0.25.2200(0x28001953) WeChat/arm64 Weixin NetType/4G Language/zh_CN ABI/arm64 MiniProgramEnv/android',
 				 "x-amz-security-token": ck[1]
 			 }, 
 		 };
@@ -109,7 +109,7 @@
 		 let url = {
 			 url: `${hostname}/syj-wechat-api/mine/integralList?pageIndex=1&pageSize=10&id=${ck[0]}`,
 			 headers: {
-                 'User-Agent': 'Mozilla/5.0 (Linux; Android 12; 22041211AC Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.99 XWEB/3171 MMWEBSDK/20220303 Mobile Safari/537.36 MMWEBID/3644 MicroMessenger/8.0.21.2103(0x28001541) Process/appbrand0 WeChat/arm64 Weixin GPVersion/1 NetType/WIFI Language/zh_CN ABI/arm64 MiniProgramEnv/android',
+                 'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/86.0.4240.99 XWEB/4309 MMWEBSDK/20220709 Mobile Safari/537.36 MMWEBID/1338 MicroMessenger/8.0.25.2200(0x28001953) WeChat/arm64 Weixin NetType/4G Language/zh_CN ABI/arm64 MiniProgramEnv/android',
 				 "x-amz-security-token": ck[1]
 			 }, 
 		 };
