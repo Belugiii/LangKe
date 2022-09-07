@@ -47,6 +47,8 @@
                  console.log(`\n 【debug】 这是你第 ${num} 账号信息:\n ${data}\n`);
              }
              msg += `\n第${num}个账号运行结果：`
+			 console.log('查询账号');
+			 await getName();
              console.log('开始签到');
              await signIn();
              
@@ -61,6 +63,33 @@
  })()
      .catch((e) => console.logErr(e))
      .finally(() => $.done())
+
+
+// 查询用户名
+  function getName(timeout = 3 * 1000) {
+     url.url = 'https://api.sodalife.xyz/v1/session/accounts'
+     url.headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `${data}`
+     }
+     return new Promise((resolve) => {
+         
+ 
+         $.get(url, async (error, response, data) => {
+             try {
+                 let result = JSON.parse(data);
+                 console.log("账号:" + result.data[0].key)
+                 
+                 msg += "账号: " + result.data[0].key + "\t";
+ 
+             } catch (e) {
+                 console.log(e)
+             } finally {
+                 resolve();
+             }
+         }, timeout)
+     })
+ }
 
  
  /**
@@ -105,6 +134,7 @@
          }, timeout)
      })
  }
+ 
  
  
  //查询余额
