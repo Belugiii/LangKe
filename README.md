@@ -1,3 +1,10 @@
-# GreenGragon
+# 杂七杂八脚本库
 
-这是一个自用的青龙库
+## 拉库命令
+
+```txt
+ql repo https://github.com/Belugiii/GreenGragon.git "bg_|Test" "" "sendNotify"
+```
+
+
+
