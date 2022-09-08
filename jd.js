@@ -2,8 +2,6 @@
  *
  *金典SATINE  小程序
  *
- * cron 0 0,7 * * *  yml2213_javascript_master/jdsatine.js
- *
  * 7-25		签到，积分查询
  *
  * ========= 青龙--配置文件 =========

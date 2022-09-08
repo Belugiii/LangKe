@@ -17,7 +17,7 @@ meituanPosition： 可选，虚拟定位坐标，注意长度，格式: 11323333
 重写：(打开美团APP)
 [task_local]
 #美团
-26 0,7-21/2 * * * https://raw.githubusercontent.com/leafTheFish/DeathNote/main/meituan.js, tag=美团, enabled=true
+13 0,7-21/2 * * * https://raw.githubusercontent.com/leafTheFish/DeathNote/main/meituan.js, tag=美团, enabled=true
 [rewrite_local]
 http://gaea.meituan.com/mop/entry/forbidden/resource url script-request-header https://raw.githubusercontent.com/leafTheFish/DeathNote/main/meituan.js
 

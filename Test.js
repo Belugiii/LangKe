@@ -1,6 +1,5 @@
 /*
-    new Env("模板")
-    cron: 30 7 * * *
+    new Env("Test")
 */
  const $ = Env('模板');
  const notify = $.isNode() ? require('./sendNotify') : '';

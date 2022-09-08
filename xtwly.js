@@ -5,8 +5,6 @@
  *
  * 新天威旅游  小程序
  *
- * cron 10 7 * * *  yml2213_javascript_master/xtwly.js
- *
  * 7-3		签到 ,群友说实物发货,自己玩把
  * 7-4		修复签到bug
  *

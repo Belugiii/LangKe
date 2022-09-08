@@ -6,8 +6,7 @@
  抓包：开着抓包软件登录，抓 https://api.dutenews.com/api-uaa/client/token 这条链接里请求体的body部分
  示例：password=xxx&device_id=xxx&grantType=custom_pwd&account=xxx
  变量格式：export dt='body1@body2'  多个账号用 @ 或者 换行 分割
- 定时：一天一次
- cron：32 10 * * *
+
 
  [task_local]
  #读特
