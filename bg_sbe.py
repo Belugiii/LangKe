@@ -4,9 +4,7 @@
     link: https://raw.githubusercontent.com/yml2213/Python/master/sbr/sbr.py
     new Env("苏泊尔")
     Name: 苏泊尔  小程序    种大米,换实物
-    Author: yml
-    Date: 2022.7.12
-    cron: 19 7,12 * * *    sbe.py
+    cron: 19 7,12 * * *
 
     7.13    完成 签到, 偷大米, 浏览菜谱 任务
     ================== 青龙--配置文件 ==================
