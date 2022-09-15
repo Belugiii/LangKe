@@ -7,13 +7,12 @@ var month = date.getMonth() + 1;
 var day = date.getDate();
 date = year;
 if(month < 10){
-    date = '' + date + 0
+    month = '' + 0 + month;
 }
-date = '' + date + month;
 if(day < 10){
-    date = '' + date +0 + day
+    day = '' + 0 + day;
 }
-date = '' + date + day;
+date = '' + year + month + day;
 var request = require('request');
 var options = {
   'method': 'POST',
