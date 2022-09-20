@@ -16,6 +16,11 @@
         'Content-Type': 'application/json; charset=utf-8'
     },
 }
+
+if(new Date().getDay() == 6){
+	Notify = 1;
+}
+
  
  !(async () => {
  

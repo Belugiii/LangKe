@@ -13,7 +13,7 @@
 
  const $ = new Env("乐事");
  const notify = $.isNode() ? require("./sendNotify") : "";
- const Notify = 0 		//0为关闭通知,1为打开通知,默认为1
+ var Notify = 0 		//0为关闭通知,1为打开通知,默认为1
  const debug = 0			//0为关闭调试,1为打开调试,默认为0
  //---------------------------------------------------------------------------------------------------------
  let ckStr = ($.isNode() ? process.env.ls_data : $.getdata('ls_data')) || '';
@@ -94,10 +94,12 @@
 			 DoubleLog(`签到:${result?.message} 🎉 ,签到成功`);
 			 await wait(3);
 		 } else {
+			 Notify = 1;
 			 DoubleLog(`签到: 失败 ❌ 了呢,原因未知!`);
 			 console.log(result);
 		 }
 	 } catch (error) {
+		 Notify = 1;
 		 console.log(error);
 	 }
  

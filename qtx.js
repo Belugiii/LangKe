@@ -436,6 +436,7 @@ function getNickName(timeout = 2 * 1000) {
                 }
 
             } catch (e) {
+				Notify = 1;
                 console.log(e)
             } finally {
                 resolve();

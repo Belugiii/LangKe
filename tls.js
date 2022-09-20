@@ -13,7 +13,7 @@
 
  const $ = new Env("特仑苏");
  const notify = $.isNode() ? require("./sendNotify") : "";
- const Notify = 0 		//0为关闭通知,1为打开通知,默认为1
+ var Notify = 0 		//0为关闭通知,1为打开通知,默认为1
  const debug = 0			//0为关闭调试,1为打开调试,默认为0
  //---------------------------------------------------------------------------------------------------------
  let ckStr = ($.isNode() ? process.env.tls_data : $.getdata('tls_data')) || '';
@@ -95,6 +95,7 @@
 		 } else if (result?.data == '100023') {
 			 DoubleLog(`签到:${result.msg},请勿重复签到`);
 		 } else {
+			 Notify = 1;
 			 DoubleLog(`签到: 失败 ❌ 了呢,原因未知!`);
 			 console.log(result);
 		 }
@@ -125,6 +126,7 @@
 			 DoubleLog(`查询成功，当前积分:${result?.data.mnCommonUser.integral} 🎉 `);
 			 await wait(3);
 		 } else {
+			 
 			 DoubleLog(`查询: 失败 ❌ 了呢,原因未知!`);
 			 console.log(result);
 		 }

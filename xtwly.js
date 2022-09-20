@@ -23,7 +23,7 @@
 
 const $ = new Env("新天威旅游");
 const notify = $.isNode() ? require("./sendNotify") : "";
-const Notify = 0 		//0为关闭通知,1为打开通知,默认为1
+var Notify = 0 		//0为关闭通知,1为打开通知,默认为1
 const debug = 0			//0为关闭调试,1为打开调试,默认为0
 //---------------------------------------------------------------------------------------------------------
 let ckStr = ($.isNode() ? process.env.xtwly_data : $.getdata('xtwly_data')) || '';
@@ -123,6 +123,7 @@ async function sign_info() {
 		if (result?.code == 0) {
 			await signIn();
 		} else {
+			Notify = 1;
 			DoubleLog(`签到信息: 失败 ❌ 了呢,原因未知!`);
 			console.log(result);
 			return ck_status = false;

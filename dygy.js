@@ -243,7 +243,7 @@ function doSignin(timeout = 3 * 1000) {
                     log(`签到失败，原因是:已签到`)
 
                 } else {
-
+					Notify = 1;
                     log(`签到失败，原因是:${result.message}`)
 
                 }

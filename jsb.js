@@ -11,7 +11,7 @@
 
  const $ = new Env("杰士邦");
  const notify = $.isNode() ? require("./sendNotify") : "";
- const Notify = 0 		//0为关闭通知,1为打开通知,默认为1
+ var Notify = 0 		//0为关闭通知,1为打开通知,默认为1
  const debug = 0			//0为关闭调试,1为打开调试,默认为0
  //---------------------------------------------------------------------------------------------------------
  let ckStr = ($.isNode() ? process.env.jsb_data : $.getdata('jsb_data')) || '';
@@ -89,6 +89,7 @@
 		 } else if (result.status == 500) {
 			 DoubleLog(`签到:${result.message}`);
 		 } else {
+			 Notify = 1;
 			 DoubleLog(`签到: 失败 ❌ 了呢,原因未知!`);
 			 console.log(result);
 		 }
