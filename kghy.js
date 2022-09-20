@@ -1,3 +1,5 @@
+//new Env("酷狗会员兑换");
+
 var request = require('request');
 var options = {
   'method': 'POST',
