@@ -167,7 +167,7 @@ if(new Date().getDay() == 6){
  
                  let result = JSON.parse(data);
                  if (result.status == "OK") {
-                     msg += `\t余额:${result.data.value}\n`
+                     msg += `\t余额:${result.data.value}`
                      console.log(`\n余额:${result.data.value}`)
 
                  }else {  
