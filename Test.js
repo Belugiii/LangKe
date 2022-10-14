@@ -2,13 +2,13 @@
     new Env("Test")
 	cron: 7 7 7 7 7
 */
- const $ = Env('Test');
+ const $ = new Env('Test');
  const notify = $.isNode() ? require('./sendNotify') : '';
  var Notify = 0; //0为关闭通知，1为打开通知,默认为1
- let suda = process.env.suda;
- let variables = [];
- let data = '';
- let msg = '';
+ let localEnv = process.env.suda;	
+ let variables = [];//env里的数据 由@或\n分割
+ let data = '';//返回数据
+ let msg = '';//通知信息
  let url = {
     url: '',
     headers: {
@@ -18,11 +18,11 @@
  
  !(async () => {
  
+	//判断是否有环境变量
      if (!(await Envs()))
          return;
      else {
 
- 
         console.log(`=>执行时间：${new Date(
              new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 +
              8 * 60 * 60 * 1000).toLocaleString()}\n`);
@@ -98,19 +98,42 @@
      })
  }
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  // ============================================变量检查============================================ \\
  async function Envs() {
-     if (suda) {
-         if (suda.indexOf("@") != -1) {
-             suda.split("@").forEach((item) => {
+     if (localEnv) {
+         if (localEnv.indexOf("@") != -1) {
+             localEnv.split("@").forEach((item) => {
                  variables.push(item);
              });
-         } else if (suda.indexOf("\n") != -1) {
-            suda.split("\n").forEach((item) => {
+         } else if (localEnv.indexOf("\n") != -1) {
+            localEnv.split("\n").forEach((item) => {
                 variables.push(item);
             });
          } else {
-             variables.push(suda);
+             variables.push(localEnv);
          }
      } else {
          console.log(`\n 【${$.name}】：未填写变量 suda`)
