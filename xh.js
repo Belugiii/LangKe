@@ -11,7 +11,7 @@
 
  const { log } = require("console");
 
- const $ = new Env("新禾");
+ const $ = new Env("欣禾");
  const notify = $.isNode() ? require("./sendNotify") : "";
  var Notify = 0 		//0为关闭通知,1为打开通知,默认为1
  const debug = 0			//0为关闭调试,1为打开调试,默认为0

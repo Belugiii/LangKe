@@ -17,7 +17,7 @@
     },
 }
 
-if(new Date().getDay() == 6){
+if(new Date().getDay() == 7){
 	Notify = 1;
 }
 
