@@ -5,8 +5,6 @@
 
 eval "rm -rf ./ELM"
 
-# new Env("饿了么")
-# cron: 30 6,20 * * *
 _ftype=""
 get_arch=`arch`
 echo $get_arch
