@@ -1,4 +1,4 @@
-//cron 0 0 * * *
+// cron: 0 0 * * *
 // new Env("美团优选10元券")
 
 var unirest = require('unirest');
