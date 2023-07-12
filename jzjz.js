@@ -4,21 +4,27 @@ var unirest = require('unirest');
 var req = unirest('GET', 'https://api.juzijianzhi.com/web/user/sign?u=408427')
   .headers({
     'authority': 'api.juzijianzhi.com',
-    'pragma': 'no-cache',
-    'cache-control': 'no-cache',
-    'origin': 'https://www.juzijianzhi.com',
-    'sec-fetch-dest': 'empty',
-    'access-token': 'tk.c23dfb6aae103c74ca61a7b6a65f40c0',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 SE 2.X MetaSr 1.0',
-    'dnt': '1',
     'accept': '*/*',
-    'sec-fetch-site': 'same-site',
+    'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+    'access-control-request-headers': 'access-token',
+    'access-control-request-method': 'GET',
+    'origin': 'https://www.juzijianzhi.com',
+    'referer': 'https://www.juzijianzhi.com/',
+    'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
-    'referer': 'https://www.juzijianzhi.com/i/achieve',
-    'accept-language': 'zh-CN,zh;q=0.9',
-    'Cookie': 'acw_tc=76b20f6b16857840996545576e411f6fa86adf8a0560fd5d6a8d7cfe9f90fe'
+    'sec-fetch-site': 'same-site',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43',
+    'access-token': 'tk.6a41b584c4de4e0f0b81345321c2eef3',
+    'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'Cookie': 'acw_tc=781bad2316891512730658046e5119d92e264b5669386bcb4e45c6aa2806a3'
   })
   .end(function (res) { 
-    if (res.error) throw new Error(res.error); 
-    console.log(res.raw_body);
+	  if(res.raw_body == 1){
+		  console.log("签到成功");
+	  }else{
+		  console.log("失败");
+		  console.log(res.raw_body);
+	  }
   });

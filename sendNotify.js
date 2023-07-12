@@ -68,7 +68,7 @@ let QYWX_KEY = '';
  - 文本消息: 1 (数字一)
  - 图文消息（mpnews）: 素材库图片id, 可查看此教程(http://note.youdao.com/s/HMiudGkb)或者(https://note.youdao.com/ynoteshare1/index.html?id=1a0c8aff284ad28cbd011b29b3ad0191&type=note)
  */
-let QYWX_AM = 'ww279729150e9d35a3,DHvVnYdF7fz9-YmXUb3KiHW6tI25ybQRDTqqrqyLEW8,@all,1000002,0';
+let QYWX_AM = 'ww279729150e9d35a3,DHvVnYdF7fz9-YmXUb3KiHW6tI25ybQRDTqqrqyLEW8,MiaoYueDong,1000002,0';
 
 // =======================================iGot聚合推送通知设置区域===========================================
 //此处填您iGot的信息(推送key，例如：https://push.hellyw.com/XXXXXXXX)
@@ -86,7 +86,7 @@ let PUSH_PLUS_USER = '';
  * @param text 通知头
  * @param desp 通知体
  * @param params 某些推送通知方式点击弹窗可跳转, 例：{ url: 'https://abc.com' }
- * @param author 作者仓库等信息  例：`本通知 By：https://github.com/whyour/qinglong`
+ * @param author 作者仓库等信息  例：`本通知 By：https://www.baidu.com`
  * @returns {Promise<unknown>}
  */
 async function sendNotify(
@@ -96,7 +96,6 @@ async function sendNotify(
   author = '',
 ) {
   //提供6种通知
-  desp += author; //增加作者信息，防止被贩卖等
   await Promise.all([
     serverNotify(text, desp), //微信server酱
     pushPlusNotify(text, desp), //pushplus(推送加)
@@ -565,7 +564,7 @@ function qywxamNotify(text, desp) {
               textcard: {
                 title: `${text}`,
                 description: `${desp}`,
-                url: 'https://github.com/whyour/qinglong',
+                url: 'https://www.baidu.com',
                 btntxt: '更多',
               },
             };

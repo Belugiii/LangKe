@@ -1,5 +1,4 @@
 //new Env("王者营地签到")
-
 var unirest = require('unirest');
 var req = unirest('POST', 'https://kohcamp.qq.com/operation/action/signin')
   .headers({
@@ -45,5 +44,6 @@ var req = unirest('POST', 'https://kohcamp.qq.com/operation/action/signin')
     "roleId": 108400113
   }))
   .end(function (res) { 
-    console.log(JSON.parse(res.raw_body).returnCode);
+    if (res.error) throw new Error(res.error); 
+    console.log(res.raw_body);
   });
