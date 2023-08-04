@@ -26,5 +26,6 @@ var req = unirest('POST', 'https://bi-mall.meituan.com/api/c/game/walk/uploadUse
     }
   }))
   .end(function (res) { 
-    console.log(res);
+    if (res.error) throw new Error(res.error); 
+    console.log(res.raw_body);
   });
