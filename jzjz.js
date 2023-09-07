@@ -14,7 +14,7 @@ var req = unirest('GET', 'https://api.juzijianzhi.com/web/user/sign?u=408427')
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'same-site',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.43',
-    'access-token': 'tk.6a41b584c4de4e0f0b81345321c2eef3',
+    'access-token': 'tk.1459db360e8622990b3ec643738c58d3',
     'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Microsoft Edge";v="114"',
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"Windows"',
