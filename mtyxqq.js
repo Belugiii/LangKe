@@ -1,5 +1,5 @@
 // new Env("美团优选抢券")
-// cron: 30 8 * * *
+// cron: 0 0 * * *
 var unirest = require('unirest');
 var req = unirest('POST', 'https://bi-mall.meituan.com/api/c/game/walk/convertRedPacket?largeFontSize=false&uuid=18848c59a76c8-1a47957cb3ef8d-0-505c8-18848c59a76c8&utm_medium=wxapp&brand=meituanyouxuan&tenantId=1&utm_term=5.159.0&device_model=iPhone%2012%3CiPhone13%2C2%3E&optimus_risk_level=71&optimus_code=10&poiIdStr=axBtRzrzC0vAJ7_qAsEA3wE&poi=0&stockPois=0&ci=140&bizId=4&fp_user_id=244590252&fp_open_id_cipher=AwQAAABJAgAAAAEAAAAyAAAAPLgC95WH3MyqngAoyM%2Fhf1hEoKrGdo0pJ5DI44e1wGF9AT3PH7Wes03actC2n%2FGVnwfURonD78PewMUppAAAADiuhqVqN3L3sGjjLtcHn0zjFyx7ZkkV7dmqckxgQfxIOG1e4%2BI1MeCDNotd9gFQ4RbDkeZ%2BdtwCvA%3D%3D&openId=oRRr90Pfh7mO5Vp4RUTWyxXY0Rgk&unionId=oNQu9t_H5V42JVkDszofncO7qFGo&superId=A2-A3-A2-A4-A2-A4-A2-A4-A2-A4&sysName=iOS&sysVerion=16.0&app_tag=youxuan')
   .headers({
