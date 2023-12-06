@@ -1,4 +1,4 @@
-var $ = new Env('脚本名称')
+var $ = new Env('王者营地签到')
 var notify = require('./sendNotify');
 var Notify = 0; //0为关闭通知，1为打开通知,默认为1
 var msg = ''; //需要推送的内容
