@@ -1,3 +1,8 @@
+var $ = new Env('脚本名称')
+var notify = require('./sendNotify');
+var Notify = 0; //0为关闭通知，1为打开通知,默认为1
+var msg = ''; //需要推送的内容
+
 var unirest = require('unirest');
 var req = unirest('POST', 'https://kohcamp.qq.com/operation/action/signin')
   .headers({
@@ -44,6 +49,29 @@ var req = unirest('POST', 'https://kohcamp.qq.com/operation/action/signin')
     "roleId": 108400113
   }))
   .end(function (res) { 
-    if (res.error) throw new Error(res.error); 
+    if (res.error){
+	    msg += res.error;
+	    Notify++;
+	    SendMsg(msg)
+		throw new Error(res.error)
+	}; 
+    let res_body = JSON.parse(res.raw_body)
+    if(res_body.returnCode != 0){
+	    msg += res_body.returnMsg
+	    Notify++;
+    }
     console.log(res.raw_body);
+    SendMsg(msg)
   });
+
+
+function SendMsg(message) {
+     if (Notify > 0) {
+         notify.sendNotify($.name, message);
+     } else {
+         console.log(message);
+     }
+ }
+function Env(name){
+	this.name = name;
+}
