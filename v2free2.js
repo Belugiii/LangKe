@@ -1,27 +1,36 @@
 // new Env("v2free2签到")
 // cron: 30 7 * * *
-const unirest = require("unirest");
+const axios = require('axios');
 
-const req = unirest("POST", "https://v2free.net/user/checkin");
+let config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'https://v1.v2free.top/user/checkin',
+  headers: { 
+    'Accept': 'application/json, text/javascript, */*; q=0.01', 
+    'Accept-Language': 'zh-CN,zh;q=0.9', 
+    'Cache-Control': 'no-cache', 
+    'Connection': 'keep-alive', 
+    'Content-Length': '0', 
+    'Cookie': 'uid=52198; email=belugi%40qq.com; key=55d06fb4345466cfb53d3ec06e2730c813a785eacf0ee; ip=fd43028fabd37f6029569732217e6844; expire_in=1703182740; crisp-client%2Fsession%2Fa47ae3dd-53d8-4b15-afae-fb4577f7bcd0=session_17ee53f5-08ae-4a9e-90c5-4033eca98e1d', 
+    'Origin': 'https://v1.v2free.top', 
+    'Pragma': 'no-cache', 
+    'Referer': 'https://v1.v2free.top/user', 
+    'Sec-Fetch-Dest': 'empty', 
+    'Sec-Fetch-Mode': 'cors', 
+    'Sec-Fetch-Site': 'same-origin', 
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36', 
+    'X-Requested-With': 'XMLHttpRequest', 
+    'sec-ch-ua': '"Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"', 
+    'sec-ch-ua-mobile': '?0', 
+    'sec-ch-ua-platform': '"Windows"'
+  }
+};
 
-req.headers({
-  "Host": "v2free.net",
-  "X-Requested-With": "XMLHttpRequest",
-  "Sec-Fetch-Site": "same-origin",
-  "Accept-Language": "zh-CN,zh-Hans;q=0.9",
-  "Accept-Encoding": "gzip, deflate, br",
-  "Sec-Fetch-Mode": "cors",
-  "Accept": "application/json, text/javascript, */*; q=0.01",
-  "Origin": "https://v2free.net",
-  "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Mobile/15E148 Safari/604.1",
-  "Referer": "https://v2free.net/user",
-  "Connection": "keep-alive",
-  "Sec-Fetch-Dest": "empty",
-  "Cookie": "crisp-client/session/a47ae3dd-53d8-4b15-afae-fb4577f7bcd0=session_50bfaae9-a4c2-459c-bd92-782591ee399e; email=belugi@qq.com; expire_in=1701736838; ip=7427f1497e5ecd22f19fc54ff96c3b00; key=76cab01b1133bf926c78a82be7cc4a0e7adbc99ee095d; uid=52198"
-});
-
-req.end(function (res) {
-  if (res.error) throw new Error(res.error);
-
-  console.log(res.body);
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+})
+.catch((error) => {
+  console.log(error);
 });
