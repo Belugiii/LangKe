@@ -1,4 +1,4 @@
-var $ = new Env('王者营地签到')
+var $ = new Env('美团优选步数金币3')
 var notify = require('./sendNotify');
 var Notify = 1; //0为关闭通知，1为打开通知,默认为1
 var msg = ''; //需要推送的内容
@@ -43,6 +43,7 @@ let config = {
 
 axios.request(config)
 .then((response) => {
+	console.log(JSON.stringify(response.data));
   data = JSON.stringify({
   "userStepCount": 23714,
   "code": 100,
