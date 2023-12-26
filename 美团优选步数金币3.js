@@ -80,14 +80,14 @@ axios.request(config)
 			},
 			data: data
 		};
-		setTimeout(axios.request(config)
+		axios.request(config)
 			.then((response) => {
 				console.log(JSON.stringify(response.data));
 			})
 			.catch((error) => {
 				SendMsg(error)
 				console.log(error);
-			});, 8000 )
+			});
 		
 
 	})
