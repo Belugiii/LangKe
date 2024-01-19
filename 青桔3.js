@@ -1,5 +1,3 @@
-//new Env('青桔3签到');
-
 var unirest = require('unirest');
 var req = unirest('POST', 'https://htwkop.xiaojukeji.com/gateway?api=prado.play.common.facade.component&apiVersion=1.0.0&appKey=h5appbcd0af7461691c1e30bcd61098f&appVersion=14.6.0&mobileType=Xiaomi&osType=2&osVersion=Android%2011&timestamp=1699537366349&ttid=h5&userRole=1&token=UIudxhGVfWh_L2calefXgWXS-vSZgAxf6x4f5s5gUa0kzrtqxUAMhOF3-WthpNVK8eptcnEuzQYSTmX87ofF1XxMMczJVArfdFOEaZQJs1Eeaou-aHuMFunR--o6pcIMCoTXO94ot8zUoc09ezPhg3LhoE7-fx9_7wcVqmaX8ElZjhH-4mnCF4Xt2lsfkWN9-b5nfyi9ngEAAP__&userId=316660902336421&sign=e1d4e9546f1e969753f24dd3559a3c2f2c3095c1&wsgsig=dd03-D%2F5%2BngPq1QqY7iJO8c9SQt%2FlJJAz2gDo5XauzshiJJAy5cnWNDYpRcYt4uqy5syS30etODLt34TxJni%2F7jLSQfSU43Ox5nnyJt1Pycqr2QhS6bmO8cdSRfTm%2B8k')
   .headers({

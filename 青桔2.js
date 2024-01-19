@@ -1,4 +1,3 @@
-//new Env("青桔02")
 var unirest = require('unirest');
 var req = unirest('POST', 'https://htwkop.xiaojukeji.com/gateway?api=prado.play.common.facade.component&apiVersion=1.0.0&appKey=h5appbcd0af7461691c1e30bcd61098f&appVersion=13.4.0&mobileType=Xiaomi&osType=2&osVersion=Android%2011&timestamp=1684297562460&ttid=h5&userRole=1&token=x-p1KH9Je9krQweuwWxphtQsGHpBv7IX2nM7vhrF49EkzDmuwzAMANG7TE0YpERKFm_zF2dpFCBBKsN3DwJXM9XbmUpSF10UYRppwixkDbXvVtJ6jL62PtSiV2E6qcIMEoSfM79kGUN7Wd2bemsh_JNV2Mid1-P9_NvIUDU7hAtpbfUyergJVxIL6-qm6oZwO9k7qccnAAD__w%3D%3D&userId=299072844604665&sign=12de3edf64a0c4a2832aaa5c7de13acd81e9b9ed&wsgsig=dd03-YMcDYPfnzT8gv8%2B9W78WV68sTMz9wQsaX37m%2F5NVTMzaZof2lyntUT0kwx8aZ88cru3pXxjlxwbbpJc%2BUyKs%2FxnnxxpbYz89%2F7cvVxNXwOcHS%2B4fUvJiVHgixTO')
   .headers({
