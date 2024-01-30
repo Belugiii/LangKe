@@ -33,7 +33,7 @@
              let num = index + 1
  
              data = variables[index];
-             console.log(data);
+             console.log(data.replaceAll('pt_key=','').replaceAll(';pt_pin=','-----').replaceAll(';',''))
  
          }
          await SendMsg(msg);
@@ -162,8 +162,8 @@
  // ============================================变量检查============================================ \\
  async function Envs() {
      if (suda) {
-         if (suda.indexOf("@") != -1) {
-             suda.split("@").forEach((item) => {
+         if (suda.indexOf("&") != -1) {
+             suda.split("&").forEach((item) => {
                  variables.push(item);
              });
          } else if (suda.indexOf("\n") != -1) {
