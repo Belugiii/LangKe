@@ -34,7 +34,8 @@
  
              data = variables[index];
              console.log(data.replaceAll('pt_key=','').replaceAll(';pt_pin=','-----').replaceAll(';',''))
- 
+			 msg += data.replaceAll('pt_key=','').replaceAll(';pt_pin=','-----').replaceAll(';','')
+			 msg += "\n"
          }
          await SendMsg(msg);
      }
