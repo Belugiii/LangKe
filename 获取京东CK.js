@@ -33,7 +33,6 @@
              let num = index + 1
  
              data = variables[index];
-             console.log(data.replaceAll('pt_key=','').replaceAll(';pt_pin=','-----').replaceAll(';',''))
 			 msg += data.replaceAll('pt_key=','').replaceAll(';pt_pin=','-----').replaceAll(';','')
 			 msg += "\n"
          }
@@ -43,122 +42,6 @@
  })()
      .catch((e) => console.logErr(e))
      .finally(() => $.done())
-
-
-// 查询用户名
-  function getName(timeout = 3 * 1000) {
-     url.url = 'https://api.sodalife.xyz/v1/session/accounts'
-     url.headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `${data}`
-     }
-     return new Promise((resolve) => {
-         
- 
-         $.get(url, async (error, response, data) => {
-             try {
-                 let result = JSON.parse(data);
-                 console.log("账号:" + result.data[0].key)
-                 
-                 msg += "账号: " + result.data[0].key + "\t";
- 
-             } catch (e) {
-                 console.log(e)
-             } finally {
-                 resolve();
-             }
-         }, timeout)
-     })
- }
-
- 
- /**
-  * 签到
-  */
- function signIn(timeout = 3 * 1000) {
-     url.url = 'https://api.sodalife.xyz/v1/point-tasks/DAILY_SIGNIN/point-bills?__t=1656347731929'
-     url.headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': `${data}`
-     }
-     return new Promise((resolve) => {
- 
-         if (debug) {
-             console.log(`\n【debug】=============== 这是 签到 请求 url ===============`);
-             console.log(JSON.stringify(url));
-         }
- 
-         $.post(url, async (error, response, data) => {
-             try {
-                 if (debug) {
-                     console.log(`\n\n【debug】===============这是 签到 返回data==============`);
-                     console.log(data)
-                 }
- 
-                 let result = JSON.parse(data);
-                 if (result.status == "OK") {
-                     msg += "签到成功"
-                     console.log(`\n签到成功\n`)
-
-                 }else {  
-                     Notify = 1;
-                     msg += `\n签到失败，原因是${result} `
-                     console.log(`\n签到失败，原因是${result} `)
-                 }
- 
-             } catch (e) {
-                 console.log(e)
-             } finally {
-                 resolve();
-             }
-         }, timeout)
-     })
- }
- 
- 
- 
- //查询余额
-  function yue(timeout = 3 * 1000) {
-     url.url = 'https://api.sodalife.xyz/v1/user/point'
-     url.headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `${data}`
-     }
-     return new Promise((resolve) => {
-         
-         
- 
-         if (debug) {
-             console.log(`\n【debug】=============== 这是 查询 请求 url ===============`);
-             console.log(JSON.stringify(url));
-         }
- 
-         $.get(url, async (error, response, data) => {
-             try {
-                 if (debug) {
-                     console.log(`\n\n【debug】===============这是 查询 返回data==============`);
-                     console.log(data)
-                 }
- 
-                 let result = JSON.parse(data);
-                 if (result.status == "OK") {
-                     msg += `\t余额:${result.data.value}`
-                     console.log(`\n余额:${result.data.value}`)
-
-                 }else {  
-                     Notify = 1;
-                     msg += `\n查询失败，原因是${result.message} `
-                     console.log(`\n签到失败，原因是${result} `)
-                 }
- 
-             } catch (e) {
-                 console.log(e)
-             } finally {
-                 resolve();
-             }
-         }, timeout)
-     })
- }
  
  // ============================================变量检查============================================ \\
  async function Envs() {
