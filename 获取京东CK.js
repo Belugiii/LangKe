@@ -37,7 +37,6 @@
 			 msg += "\n"
          }
          await SendMsg(msg);
-         console.log(`\n===================               ovcer               ===================`)
      }
  
  })()
@@ -72,6 +71,7 @@
          return;
      if (Notify > 0) {
          if ($.isNode()) {
+	         console.log(message);
              var notify = require('./sendNotify');
              await notify.sendNotify($.name, message);
          } else {
