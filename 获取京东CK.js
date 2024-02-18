@@ -3,7 +3,7 @@
 */
  const $ = Env('获取京东CK');
  const notify = $.isNode() ? require('./sendNotify') : '';
- var Notify = 0; //0为关闭通知，1为打开通知,默认为1
+ var Notify = 1; //0为关闭通知，1为打开通知,默认为1
  const debug = 0; //0为关闭调试，1为打开调试,默认为0
  //////////////////////
  let suda = process.env.JD_COOKIE;
@@ -37,6 +37,7 @@
 			 msg += "\n"
          }
          await SendMsg(msg);
+         console.log(`\n===================               ovcer               ===================`)
      }
  
  })()
