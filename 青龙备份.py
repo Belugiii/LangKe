@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 # coding: utf-8
 '''
-项目名称: Ukenn2112 / qinglong_Backup
-Author: Ukenn2112
-功能：自动备份qinglong基本文件至阿里云盘
-Date: 2022/02/03 上午12:00
-cron: 0 2 * * *
-new Env('qinglong备份');
+cron: 0 2 * * 7
+new Env('青龙备份');
 '''
 import logging
 import os
@@ -61,17 +57,16 @@ def start():
         message_up_time = time.strftime(
             "%Y年%m月%d日 %H时%M分%S秒", time.localtime())
         text = f'已备份至阿里网盘:\n{run_path}{QLBK_BACKUPS_PATH}/qinglong_{now_time}.tar.gz\n' \
-               f'\n备份完成时间:\n{message_up_time}\n' \
-               f'\n项目: https://github.com/Ukenn2112/qinglong_Backup'
+               f'\n备份完成时间:\n{message_up_time}\n'
         os.remove(f'{retval}/{files_name}')
         try:
-            send('【qinglong自动备份】', text)
+            send('【青龙自动备份】', text)
         except:
             logger.info("通知发送失败")
         logger.info('---------------------备份完成---------------------')
     else:
         try:
-            send('【qinglong自动备份】', '备份压缩失败,请检查日志')
+            send('【青龙自动备份】', '备份压缩失败,请检查日志')
         except:
             logger.info("通知发送失败")
         sys.exit(1)
