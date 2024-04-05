@@ -208,7 +208,7 @@ async function SendMsg(message) {
             $.msg($.name, '', message)
         }
     } else {
-        console.log(message)
+        
     }
 }
 
