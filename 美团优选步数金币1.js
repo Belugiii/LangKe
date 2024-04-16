@@ -1,19 +1,17 @@
 const axios = require('axios');
 
-async function ask(cfg) {
-	axios.request(cfg)
-	.then((response) => {
-	  console.log(JSON.stringify(response.data));
-	})
-	.catch((error) => {
-	  console.log(error);
-	});
+function sleep(delay) {
+    return new Promise(resolve => setTimeout(resolve, delay));
+}
+ 
+async function main() {
+	await uploadSteps()
+    await sleep(5000)
+	await stepsToGold()
 }
 
-var config;
-var data;
-
-data = JSON.stringify({
+function uploadSteps(){
+	let data = JSON.stringify({
   "userStepCount": 13998,
   "code": 100,
   "riskCheckModel": {
@@ -24,8 +22,7 @@ data = JSON.stringify({
     "wxRiskLevel": "{\"openId\":\"oRRr90Pfh7mO5Vp4RUTWyxXY0Rgk\",\"appId\":\"wx77af438b3505c00e\",\"mchid\":\"1399386702\"}"
   }
 });
-
-config = {
+	let config = {
   method: 'post',
   maxBodyLength: Infinity,
   url: 'https://bi-mall.meituan.com/api/c/game/walk/uploadUserSteps?largeFontSize=false&uuid=18eb718bf24c8-3305e95ac69d98-0-505c8-18eb718bf24c8&utm_medium=wxapp&brand=meituanyouxuan&tenantId=1&utm_term=5.182.5&device_model=iPhone%2012%3CiPhone13%2C2%3E&optimus_risk_level=71&optimus_code=10&poiIdStr=oKbQ9Iq9eWfEeUXnpLIgawE&poi=0&stockPois=0&ci=140&bizId=4&fp_user_id=4428656834&fp_open_id_cipher=AwQAAABJAgAAAAEAAAAyAAAAPLgC95WH3MyqngAoyM%2Fhf1hEoKrGdo0pJ5DI44e1wGF9AT3PH7Wes03actC2n%2FGVnwfURonD78PewMUppAAAADiK2WYjuR5Cxm0tLNKZjMduKqc3CgOHTG0dn1oPUfqTWeAjaerd%2F%2FVFbJS%2FNGrrAkd2q2uDn30kyA%3D%3D&openId=oRRr90Pfh7mO5Vp4RUTWyxXY0Rgk&unionId=oNQu9t_H5V42JVkDszofncO7qFGo&routeId=pages%2FuserCenter%2Findex%2CsubPackages%2Fmarketing%2Fsteps%2Fpages%2Findex%2Findex&sysName=iOS&sysVerion=17.1&app_tag=youxuan&csecappid=wx77af438b3505c00e&csecplatform=3&csecversionname=5.182.5&csecversion=0',
@@ -47,10 +44,19 @@ config = {
   },
   data : data
 };
-// 调用函数
-ask(config);
 
-data = JSON.stringify({
+	axios.request(config)
+	.then((response) => {
+	  console.log(JSON.stringify(response.data));
+	})
+	.catch((error) => {
+	  console.log(error);
+	});
+}
+
+
+function stepsToGold(){
+	let data = JSON.stringify({
   "userStepCount": 5000,
   "code": 200,
   "riskCheckModel": {
@@ -61,8 +67,7 @@ data = JSON.stringify({
     "wxRiskLevel": "{\"openId\":\"oRRr90Pfh7mO5Vp4RUTWyxXY0Rgk\",\"appId\":\"wx77af438b3505c00e\",\"mchid\":\"1399386702\"}"
   }
 });
-
-config = {
+	let config = {
   method: 'post',
   maxBodyLength: Infinity,
   url: 'https://bi-mall.meituan.com/api/c/game/walk/convertHealthCoin?largeFontSize=false&uuid=18eb718bf24c8-3305e95ac69d98-0-505c8-18eb718bf24c8&utm_medium=wxapp&brand=meituanyouxuan&tenantId=1&utm_term=5.182.5&device_model=iPhone%2012%3CiPhone13%2C2%3E&optimus_risk_level=71&optimus_code=10&poiIdStr=oKbQ9Iq9eWfEeUXnpLIgawE&poi=0&stockPois=0&ci=140&bizId=4&fp_user_id=4428656834&fp_open_id_cipher=AwQAAABJAgAAAAEAAAAyAAAAPLgC95WH3MyqngAoyM%2Fhf1hEoKrGdo0pJ5DI44e1wGF9AT3PH7Wes03actC2n%2FGVnwfURonD78PewMUppAAAADiK2WYjuR5Cxm0tLNKZjMduKqc3CgOHTG0dn1oPUfqTWeAjaerd%2F%2FVFbJS%2FNGrrAkd2q2uDn30kyA%3D%3D&openId=oRRr90Pfh7mO5Vp4RUTWyxXY0Rgk&unionId=oNQu9t_H5V42JVkDszofncO7qFGo&routeId=pages%2FuserCenter%2Findex%2CsubPackages%2Fmarketing%2Fsteps%2Fpages%2Findex%2Findex&sysName=iOS&sysVerion=17.1&app_tag=youxuan&csecappid=wx77af438b3505c00e&csecplatform=3&csecversionname=5.182.5&csecversion=0',
@@ -84,7 +89,14 @@ config = {
   },
   data : data
 };
+	axios.request(config)
+	.then((response) => {
+	  console.log(JSON.stringify(response.data));
+	})
+	.catch((error) => {
+	  console.log(error);
+	});
+}
 
-console.log("==============================");
-// 调用函数
-ask(config);
+
+main()
