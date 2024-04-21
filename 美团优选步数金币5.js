@@ -97,6 +97,9 @@ function stepsToGold(){
 	axios.request(config)
 	.then((response) => {
 	  console.log(JSON.stringify(response.data));
+	  if(response.data.data.totalExchangedHealthCoin >= 100000){
+			  isGrab = true
+		  }
 	})
 	.catch((error) => {
 	  console.log(error);
