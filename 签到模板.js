@@ -2,7 +2,7 @@
 
 @Name：签到模板
 @Author：LangKe
-@Date：2024年4月1日 
+@Date：2024年4月30日 
 
 *************************
 【 签到脚本使用教程 】:
@@ -108,29 +108,8 @@ class UserInfo {
 
 }
 
-
-//获取Cookie
-async function getCookie() {
-    if ($request && $request.method != 'OPTIONS') {
-        const bodyValue = $request.body;
-        const tokenValue = $request.headers['Qm-User-Token'] || $.request.headers['qm-user-token'] || $.request.headers['QM-USER-TOKEN'];
-        if (bodyValue && tokenValue) {
-            $.setdata(tokenValue, env_token);
-            $.setjson(bodyValue, env_body)
-            $.msg($.name, "", "获取签到Cookie成功🎉");
-        } else {
-            $.msg($.name, "", "错误获取签到Cookie失败");
-        }
-    }
-}
-
 //主程序执行入口
 !(async () => {
-    //没有设置变量,执行Cookie获取
-    if (typeof $request != "undefined") {
-        await getCookie();
-        return;
-    }
     //未检测到ck，退出
     if (!(await checkEnv())) {throw new Error(`❌未检测到ck，请添加环境变量`)};
     if (userList.length > 0) {
@@ -159,14 +138,6 @@ function DoubleLog(data) {
         console.log(`${data}`);
         $.notifyMsg.push(`${data}`);
     }
-}
-
-//把json 转为以 ‘&’ 连接的字符串
-function toParams(body) {
-    var params = Object.keys(body).map(function (key) {
-        return encodeURIComponent(key) + "=" + encodeURIComponent(body[key]);
-    }).join("&");
-    return params;
 }
 
 //检查变量
