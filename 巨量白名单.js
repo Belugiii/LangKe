@@ -1,4 +1,4 @@
-// cron: 0/20 * * * *
+// cron: 0 0/20 * * * ?
 const axios = require('axios');
 const CryptoJS = require("crypto-js");
 // api密钥
