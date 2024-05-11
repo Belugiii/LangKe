@@ -80,7 +80,7 @@ class UserInfo {
                 //请求头, 所有接口通用
                 headers: this.headers,
             };
-            let result = await httpRequest(options,'get');
+            let result = await httpRequest(options,'post');
             if (result?.code == 200) {
                 //obj.error是0代表完成
                 DoubleLog(`✅签到成功！`);
