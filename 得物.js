@@ -29,8 +29,10 @@ async function main() {
     let taskall = [];
     for (let user of userList) {
         DoubleLog(`🔷账号${user.index} >> 开始签到`)
-        console.log(`随机延迟${user.getRandomTime()}ms`);
         taskall.push(await user.signin());
+        await $.wait(user.getRandomTime());
+        DoubleLog(`🔷账号${user.index} >> 开始果树任务`)
+        taskall.push(await user.tree());
         await $.wait(user.getRandomTime());
     }
     await Promise.all(taskall);
@@ -41,32 +43,6 @@ class UserInfo {
         this.index = ++userIdx;
         this.token = str;
         this.body ="" 
-        this.headers = { 
-    'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36/duapp/5.40.1(android;11)', 
-    'Accept-Encoding': 'gzip, deflate', 
-    'Content-Type': 'application/json', 
-    'ua': 'duapp/5.40.1(android;11)', 
-    'appid': 'h5', 
-    'SK': '9MRBN16I03lDouG38cpfeJrBiZNR1RgcfKlrwILlEajJ7eurB8ddininfn4d3myZMhDKkDJKuWZvmvmJLZ1sR9c0Tl1y', 
-    'deviceTrait': 'MI+9', 
-    'x-auth-token': str, 
-    'channel': 'xiaomi', 
-    'appVersion': '5.40.1', 
-    'emu': '0', 
-    'traceparent': '00-f5985ac26639c2753919159f800aa8f2-5f22a9e19c3ba21f-01', 
-    'dudeliveryid': 'E9426B50A1B2327F460F64F7CB4B6748BDFE24914A4EEF24D4D5C25559243BDD', 
-    'isRoot': '0', 
-    'imei': '', 
-    'platform': 'h5', 
-    'isProxy': '0', 
-    'Origin': 'https://cdn-m.dewu.com', 
-    'X-Requested-With': 'com.shizhuang.duapp', 
-    'Sec-Fetch-Site': 'same-site', 
-    'Sec-Fetch-Mode': 'cors', 
-    'Sec-Fetch-Dest': 'empty', 
-    'Referer': 'https://cdn-m.dewu.com/h5-growth/sign-in?navControl=1&toolbarControl=1&source=shouye', 
-    'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7'
-  }
 	}
     getRandomTime() {
         return randomInt(1000, 3000)
@@ -78,17 +54,84 @@ class UserInfo {
                 //签到任务调用签到接口
                 url: `https://app.dewu.com/hacking-game-center/v1/sign/sign?sign=fe26befc49444d362c8f17463630bdba`,
                 //请求头, 所有接口通用
-                headers: this.headers,
+                headers: { 
+			    'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36/duapp/5.40.1(android;11)', 
+			    'Accept-Encoding': 'gzip, deflate', 
+			    'Content-Type': 'application/json', 
+			    'ua': 'duapp/5.40.1(android;11)', 
+			    'appid': 'h5', 
+			    'SK': '9MRBN16I03lDouG38cpfeJrBiZNR1RgcfKlrwILlEajJ7eurB8ddininfn4d3myZMhDKkDJKuWZvmvmJLZ1sR9c0Tl1y', 
+			    'deviceTrait': 'MI+9', 
+			    'x-auth-token': this.token, 
+			    'channel': 'xiaomi', 
+			    'appVersion': '5.40.1', 
+			    'emu': '0', 
+			    'traceparent': '00-f5985ac26639c2753919159f800aa8f2-5f22a9e19c3ba21f-01', 
+			    'dudeliveryid': 'E9426B50A1B2327F460F64F7CB4B6748BDFE24914A4EEF24D4D5C25559243BDD', 
+			    'isRoot': '0', 
+			    'imei': '', 
+			    'platform': 'h5', 
+			    'isProxy': '0', 
+			    'Origin': 'https://cdn-m.dewu.com', 
+			    'X-Requested-With': 'com.shizhuang.duapp', 
+			    'Sec-Fetch-Site': 'same-site', 
+			    'Sec-Fetch-Mode': 'cors', 
+			    'Sec-Fetch-Dest': 'empty', 
+			    'Referer': 'https://cdn-m.dewu.com/h5-growth/sign-in?navControl=1&toolbarControl=1&source=shouye', 
+			    'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7'
+			  },
             };
             let result = await httpRequest(options,'post');
-            if (result?.code == 200) {
-                //obj.error是0代表完成
+            if (result?.code == 200 || result?.code == 710002001) {
                 DoubleLog(`✅签到成功！`);
             } else {
 	            Notify = 1
                 DoubleLog(`🔶${result?.msg}`)
                 console.log(result);
             }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async tree(){
+	    // 领水滴
+	    try {
+            const options = {
+                url: `https://app.dewu.com/hacking-tree/v1/droplet/get_generate_droplet?sign=fe26befc49444d362c8f17463630bdba`,
+                headers: { 
+			    'Host': 'app.dewu.com', 
+			    'ua': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/duapp/5.32.5', 
+			    'platform': 'h5', 
+			    'Accept': '*/*', 
+			    'Accept-Encoding': 'gzip, deflate, br', 
+			    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/duapp/5.32.5', 
+			    'sks': '1,hdw3', 
+			    'Sec-Fetch-Site': 'same-site', 
+			    'channel': 'App Store', 
+			    'isRoot': '0', 
+			    'Referer': 'https://cdn-m.dewu.com/', 
+			    'SK': '9MRERRYNi1EtESriBUvrLoqJblk9iujgoyxRob0QTytOoqyjix4ZNZTKuCb1jtRjDn08Wd8kZJotox6iJu2doyvm4Q25', 
+			    'Accept-Language': 'zh-CN,zh-Hans;q=0.9', 
+			    'Origin': 'https://cdn-m.dewu.com', 
+			    'Sec-Fetch-Mode': 'cors', 
+			    'x-auth-token': this.token, 
+			    'appid': 'h5', 
+			    'Connection': 'keep-alive', 
+			    'Content-Type': 'application/json', 
+			    'isProxy': '1', 
+			    'traceparent': '00-f5353aa5663fb0eb6f524fdd19c57a7b-05ec05bbb2ccfd9e-01', 
+			    'appVersion': '5.32.5', 
+			    'Sec-Fetch-Dest': 'empty', 
+			    'deviceTrait': 'iPhone', 
+			    'emu': '0', 
+			    'imei': '', 
+			    'a': '25D8620AEAFEC5DA157B09AF47C62970C1BF836CE548CBA8'
+			  },
+			  body: JSON.stringify({"data":"uWR0zr1xtF3ympSKr2vvNfxPLO2W/CVP0MpQTtN2uVVDt1ArY9aD7FDB7fSdvbhX39q1BlQ1dnOG3dPzwBbb/g​B198A2A859EFB5DBFF1C10CA3456C83A"})
+            };
+            let result = await httpRequest(options,'post');
+            console.log(result);
         } catch (e) {
             console.log(e);
         }
