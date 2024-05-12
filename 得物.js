@@ -128,7 +128,7 @@ class UserInfo {
 			    'imei': '', 
 			    'a': '25D8620AEAFEC5DA157B09AF47C62970C1BF836CE548CBA8'
 			  },
-			  body: JSON.stringify({"data":"uWR0zr1xtF3ympSKr2vvNfxPLO2W/CVP0MpQTtN2uVVDt1ArY9aD7FDB7fSdvbhX39q1BlQ1dnOG3dPzwBbb/g​B198A2A859EFB5DBFF1C10CA3456C83A"})
+			  data: JSON.stringify({"data":"uWR0zr1xtF3ympSKr2vvNfxPLO2W/CVP0MpQTtN2uVVDt1ArY9aD7FDB7fSdvbhX39q1BlQ1dnOG3dPzwBbb/g​B198A2A859EFB5DBFF1C10CA3456C83A"})
             };
             let result = await httpRequest(options,'post');
             console.log(result);
