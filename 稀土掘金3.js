@@ -1,7 +1,6 @@
 const axios = require('axios');
-let data = JSON.stringify({});
-
-let config = {
+const notify = require('./sendNotify');
+const options = {
   method: 'post',
   maxBodyLength: Infinity,
   url: 'https://api.juejin.cn/growth_api/v1/check_in?aid=2608&uuid=7329903484831335990&spider=0&msToken=sAtBcRmrVM0uW9aeqiI8sLcSnZV0gXrhx2_0YFDLXfWhlDo3hkqCZEPAF55mgAFlWFF7WLLNs-ZHsd_CoVOKXl5EEX6Nlidz2fpxmPdHgzjOrUvjFwZNqKFq444_un4%3D&a_bogus=dvlODcZdMsm1J7vPKwDT9yjEwRR0YW4TgZEPLm%2F3Z0oh',
@@ -24,13 +23,15 @@ let config = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 
     'x-secsdk-csrf-token': '000100000001516fc615e3ebe8f95dac833aea26ccfb73d4cb62bdab3d6590e990aca1b6c94717af27807208ca6d'
   },
-  data : data
+  data : {}
 };
 
-axios.request(config)
-.then((response) => {
-  console.log(JSON.stringify(response.data));
-})
-.catch((error) => {
-  console.log(error);
+axios.request(options).then(function (response) {
+  console.log(response.data);
+  if(response.data.err_no != 0){
+	  notify.sendNotify("稀土掘金3", response.data.err_msg);
+  }
+}).catch(function (error) {
+  console.error(error);
+  notify.sendNotify("稀土掘金3", error);
 });

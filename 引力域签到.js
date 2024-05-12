@@ -1,4 +1,5 @@
 const axios = require('axios');
+const notify = require('./sendNotify');
 let data = JSON.stringify({
   "paramEncryptedStr": "+2AFPtt/uAwMKOPK0PVwlQ=="
 });
@@ -27,7 +28,11 @@ let config = {
 axios.request(config)
 .then((response) => {
   console.log(JSON.stringify(response.data));
+  if(response.data.msg != "操作成功"){
+	  notify.sendNotify("引力域", response.data.msg);
+  }
 })
 .catch((error) => {
   console.log(error);
+  notify.sendNotify("引力域", error);
 });

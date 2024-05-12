@@ -1,4 +1,5 @@
 const axios = require('axios');
+const notify = require('./sendNotify');
 let data = '{"gameId":"20001","recommendPrivacy":0,"roleId":"108400113"}';
 
 let config = {
@@ -48,7 +49,11 @@ let config = {
 axios.request(config)
 .then((response) => {
   console.log(JSON.stringify(response.data));
+  if(response.data.returnCode != 0){
+	  notify.sendNotify("王者营地", response.data.returnMsg);
+  }
 })
 .catch((error) => {
   console.log(error);
+  notify.sendNotify("王者营地", error);
 });

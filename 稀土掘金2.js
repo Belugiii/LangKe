@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+const notify = require('./sendNotify');
 const options = {
   method: 'POST',
   url: 'https://api.juejin.cn/growth_api/v1/check_in',
@@ -34,6 +34,10 @@ const options = {
 
 axios.request(options).then(function (response) {
   console.log(response.data);
+  if(response.data.err_no != 0){
+	  notify.sendNotify("稀土掘金2", response.data.err_msg);
+  }
 }).catch(function (error) {
   console.error(error);
+  notify.sendNotify("稀土掘金2", error);
 });

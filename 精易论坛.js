@@ -1,4 +1,5 @@
 const axios = require('axios');
+const notify = require('./sendNotify');
 let data = 'formhash=03019e82&submit=1&targerurl=&todaysay=&qdxq=kx';
 
 let config = {
@@ -28,7 +29,11 @@ let config = {
 axios.request(config)
 .then((response) => {
   console.log(JSON.stringify(response.data));
+  if(response.data.status != 1){
+	  notify.sendNotify("精易论坛", response.data.msg);
+  }
 })
 .catch((error) => {
   console.log(error);
+  notify.sendNotify("精易论坛", error);
 });

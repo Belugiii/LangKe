@@ -1,5 +1,6 @@
 const axios = require('axios');
 const FormData = require('form-data');
+const notify = require('./sendNotify');
 let data = new FormData();
 data.append('roleId', '2565952684');
 data.append('serverIndex', '5');
@@ -36,7 +37,11 @@ let config = {
 axios.request(config)
 .then((response) => {
   console.log(JSON.stringify(response.data));
+  if(response.data.returnCode != 0){
+	  notify.sendNotify("和平营地", response.data.returnMsg);
+  }
 })
 .catch((error) => {
   console.log(error);
+  notify.sendNotify("和平营地", error);
 });
