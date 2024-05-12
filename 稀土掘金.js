@@ -5,7 +5,7 @@ cron 0 8 * * *
 export xituck='xxxxxx'
 ******************************************/
 
-
+const got = require('got');
 // env.js 全局
 const $ = new Env("稀土掘金");
 const ckName = "xituck";
@@ -42,16 +42,14 @@ class UserInfo {
         this.body = {}
 	}
     getRandomTime() {
-        return randomInt(1000, 3000)
+        return randomInt(3000, 4000)
     }
     //签到函数
     async signin() {
         try {
-            const options = {
-                //签到任务调用签到接口
-                url: `https://api.juejin.cn/growth_api/v1/check_in`,
-                //请求头, 所有接口通用
-                headers: { 
+	        const response = await got('https://api.juejin.cn/growth_api/v1/check_in', {
+	            method: 'POST', // 默认为GET，但可以显式设置
+	            headers: { 
 			    'authority': 'api.juejin.cn', 
 			    'accept': '*/*', 
 			    'accept-language': 'zh-CN,zh;q=0.9', 
@@ -70,14 +68,14 @@ class UserInfo {
 			    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 			  },
 			  data: this.body
-            };
-            let result = await httpRequest(options,'post');
-            if (result?.err_no == 0) {
+	        });
+	        console.log(response.body);
+	        let data = JSON.parse(response.body)
+	        if (data.err_no == 0) {
                 DoubleLog(`✅签到成功！`);
             } else {
 	            Notify = 1
-                DoubleLog(`🔶${result?.err_msg}`)
-                console.log(result);
+                DoubleLog(`🔶${data.err_msg}`)
             }
         } catch (e) {
             console.log(e);
