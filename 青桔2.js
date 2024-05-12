@@ -1,4 +1,5 @@
 var unirest = require('unirest');
+const notify = require('./sendNotify');
 var req = unirest('POST', 'https://htwkop.xiaojukeji.com/gateway?api=prado.play.common.facade.component&apiVersion=1.0.0&appKey=h5appbcd0af7461691c1e30bcd61098f&appVersion=13.4.0&mobileType=Xiaomi&osType=2&osVersion=Android%2011&timestamp=1684297562460&ttid=h5&userRole=1&token=x-p1KH9Je9krQweuwWxphtQsGHpBv7IX2nM7vhrF49EkzDmuwzAMANG7TE0YpERKFm_zF2dpFCBBKsN3DwJXM9XbmUpSF10UYRppwixkDbXvVtJ6jL62PtSiV2E6qcIMEoSfM79kGUN7Wd2bemsh_JNV2Mid1-P9_NvIUDU7hAtpbfUyergJVxIL6-qm6oZwO9k7qccnAAD__w%3D%3D&userId=299072844604665&sign=12de3edf64a0c4a2832aaa5c7de13acd81e9b9ed&wsgsig=dd03-YMcDYPfnzT8gv8%2B9W78WV68sTMz9wQsaX37m%2F5NVTMzaZof2lyntUT0kwx8aZ88cru3pXxjlxwbbpJc%2BUyKs%2FxnnxxpbYz89%2F7cvVxNXwOcHS%2B4fUvJiVHgixTO')
   .headers({
     'Host': 'htwkop.xiaojukeji.com',
@@ -17,6 +18,12 @@ var req = unirest('POST', 'https://htwkop.xiaojukeji.com/gateway?api=prado.play.
   })
   .send("%7B%22cityId%22%3A34%2C%22methodName%22%3A%22signIn%22%2C%22serviceCode%22%3A%22signInComponentService%22%2C%22serviceType%22%3A%22SIMPLE%22%2C%22entryFlag%22%3A%22APP_LETS%22%2C%22classifyCode%22%3A%22SIGN%22%2C%22scene%22%3A%22LLC_WELFARE_CENTER%22%2C%22bizId%22%3A363%2C%22channelId%22%3A3%2C%22miniappversion%22%3A%2213.4.0%22%2C%22klat%22%3A26.107339952256943%2C%22klnt%22%3A119.27228434244792%2C%22accuracy%22%3A225%2C%22hwId%22%3A%2210000%22%7D")
   .end(function (res) { 
-    if (res.error) throw new Error(res.error); 
+    if (res.error){
+	    notify.sendNotify("青桔2", res.error);
+	}; 
     console.log(res.raw_body);
+    let data = JSON.parse(res.raw_body)
+    if(data.data.msg != ""){
+	  notify.sendNotify("青桔2", data.data.msg);
+	}
   });
