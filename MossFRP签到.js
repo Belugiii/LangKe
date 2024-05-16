@@ -19,7 +19,7 @@ async function main() {
 	await signIn()
 }
 
-function login(){
+async function login(){
 	let hash = CryptoJS.SHA256(password).toString()
 	let data = JSON.stringify({
 	  "type": "login",
@@ -52,7 +52,7 @@ function login(){
 	  data : data
 	};
 
-	axios.request(config)
+	await axios.request(config)
 	.then((response) => {
 	  token = response.data.token
 	  console.log(token);
@@ -63,7 +63,7 @@ function login(){
 	
 }
 
-function signIn(){
+async function signIn(){
 	let data = JSON.stringify({
 	  "type": "signIn",
 	  "token": token
@@ -92,7 +92,7 @@ function signIn(){
 	  data : data
 	};
 
-	axios.request(config)
+	await axios.request(config)
 	.then((response) => {
 	  console.log(response.data.signInMessage)
 	})

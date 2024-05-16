@@ -1,6 +1,6 @@
 // cron: 0 8 * * *
-const $ = new Env('巧乐兹');
-const ckName = "qlz"; // 抓取 https://msmarket.msx.digitalyili.com 请求头中的 access-token
+const $ = new Env('苏打校园');
+const ckName = "suda"; // 抓取 https://api.sodalife.xyz 请求头中的 Authorization
 var Notify = 0; // 0为关闭通知，1为打开通知,默认为1
 const debugging = 0; // 0为关闭调试，1为打开调试,默认为0
 // 无需更改下方变量
@@ -19,7 +19,11 @@ let msg = ''; // 通知的内容
             log(`========= 开始【第 ${index + 1} 个账号】=========`)
             data = variables[index];
             debug(`【data】${data}`)
+            await getName();
+            await $.wait(2 * 1000);
             await signIn();
+            await $.wait(2 * 1000);
+            await balance();
             await $.wait(2 * 1000);
         }
     }
@@ -29,45 +33,94 @@ let msg = ''; // 通知的内容
     .finally(() => $.done())
 
 
+
+/**
+ * 查询账号
+ */
+async function getName() {
+    log('🔰   ==>   查询账号');
+    let axios = require('axios');
+
+    let option = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://api.sodalife.xyz/v1/session/accounts',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${data}`
+        }
+    }
+    debug(`【option】${JSON.stringify(option)}`)
+    await axios.request(option)
+        .then((response) => {
+            let result = response.data
+            log(`✔️   <==   账号:${result.data[0].key}`)
+        })
+        .catch((error) => {
+            log(error);
+        });
+
+}
 /**
  * 签到
  */
-async function signIn(timeout = 3 * 1000) {
+async function signIn() {
     log('🔰   ==>   开始签到');
     let axios = require('axios');
 
     let option = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'https://msmarket.msx.digitalyili.com/gateway/api/member/daily/sign',
+        url: 'https://api.sodalife.xyz/v1/point-tasks/DAILY_SIGNIN/point-bills?__t=1656347731929',
         headers: {
-            'Host': 'msmarket.msx.digitalyili.com',
-            'Connection': 'keep-alive',
-            'Content-Length': '2',
-            'content-type': 'application/json',
-            'scene': '1089',
-            'register-source': '',
-            'access-token': `${data}`,
-            'forward-appid': '',
-            'tenant-id': '1630760548505825282',
-            'atv-page': '',
-            'source-type': '',
-            'Accept-Encoding': 'gzip,compress,br,deflate',
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.44(0x18002c2f) NetType/4G Language/zh_CN',
-            'Referer': 'https://servicewechat.com/wxa206b57027b01b51/220/page-frame.html'
-        },
-        data: {}
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `${data}`
+        }
     }
     debug(`【option】${JSON.stringify(option)}`)
     await axios.request(option)
         .then((response) => {
             let result = response.data
             debug(`【result】${JSON.stringify(result)}`)
-            if (result.status == true) {
+            if (result.status == "OK") {
                 log(`✔️   <==   签到成功`)
             } else {
                 Notify = 1;
-                log(`❌   <==   签到失败，原因是${result.error.msg} `)
+                log(`❌   <==   签到失败，原因是${result} `)
+            }
+        })
+        .catch((error) => {
+            log(error);
+        });
+
+}
+
+/**
+ * 查询余额
+ */
+async function balance() {
+    log('🔰   ==>   查询余额');
+    let axios = require('axios');
+
+    let option = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://api.sodalife.xyz/v1/user/point',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${data}`
+        }
+    }
+    debug(`【option】${JSON.stringify(option)}`)
+    await axios.request(option)
+        .then((response) => {
+            let result = response.data
+            debug(`【result】${JSON.stringify(result)}`)
+            if (result.status == "OK") {
+                log(`✔️   <==   余额:${result.data.value}`)
+            } else {
+                Notify = 1;
+                log(`❌   <==   余额查询失败，原因是${result.message} `)
             }
         })
         .catch((error) => {
