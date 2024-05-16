@@ -63,7 +63,7 @@
      let axios = require('axios');
 	 
      let config = {
-         method: 'get',
+         method: 'post',
          maxBodyLength: Infinity,
          url: 'https://msmarket.msx.digitalyili.com/gateway/api/member/daily/sign',
          headers: { 
