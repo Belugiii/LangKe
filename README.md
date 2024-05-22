@@ -1,10 +1,10 @@
-# 杂七杂八脚本库
+# 卡皮巴拉
 
-## 拉库命令
+<img src="https://github.com/Belugiii/Capybara/main/img/Capybara.jpeg" width="210px">
 
-```txt
-ql repo https://github.com/Belugiii/GreenGragon.git "bg_|Test" "" "sendNotify"
+> 愿所有代码都无BUG,有BUG也是别人写的
+
+```java
+if( true ) return "Error(0);Warning(999)";
 ```
-
-
 
