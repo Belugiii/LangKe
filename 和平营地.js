@@ -1,4 +1,4 @@
-// cron: 0 8 * * *
+// cron: 0 8,22 * * *
 const $ = new Env('和平营地');
 const ckName = "hpyd"; // 抓取 https://msmarket.msx.digitalyili.com 请求头中的 access-token
 var Notify = 0; // 0为关闭通知，1为打开通知,默认为1
