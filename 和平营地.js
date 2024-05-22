@@ -76,7 +76,9 @@ async function signIn() {
         if (result.returnCode == 0) {
             log(`✔️   <==   签到成功`)
         } else {
-            Notify = 1;
+            if(result.returnCode != 0 && result.returnCode != -71003){
+                Notify = 1;
+            }
             log(`❌   <==   签到失败，原因是${result.returnMsg} `)
         }
     } catch (error) {
