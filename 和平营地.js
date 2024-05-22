@@ -22,6 +22,8 @@ const FormData = require('form-data');
             debug(`data:${data}`)
             await signIn();
             await $.wait(2 * 1000);
+            await missionRewards();
+            await $.wait(2 * 1000);
         }
     }
 
@@ -69,17 +71,132 @@ async function signIn() {
             data: v
         };
         let response = await fetchData(option);
-        if (response.code != 200){
+        if (response.code != 200) {
             return
         }
         result = response.data
         if (result.returnCode == 0) {
             log(`✔️   <==   签到成功`)
         } else {
-            if(result.returnCode != 0 && result.returnCode != -71003){
+            if (result.returnCode != -71003) {
                 Notify = 1;
             }
-            log(`❌   <==   签到失败，原因是${result.returnMsg} `)
+            log(`❌   <==   签到失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
+
+}
+/**
+ * 任务奖励
+ */
+async function missionRewards() {
+    try {
+        let v = new FormData();
+        v.append('serverIndex', '5');
+        v.append('timestamp', '1716366515');
+        v.append('algorithm', 'v2');
+        v.append('appid', 'wxb7659468ecf2f4ce');
+        v.append('sig', '506c7a452d63893b284f4f36513f4515');
+        v.append('source', 'heping_yingdi');
+        v.append('encode', '2');
+        v.append('openid', 'o7KEU0tYa4Dc0RCvhfBR129DNgbw');
+        v.append('version', '3.1.96i');
+        v.append('msdkEncodeParam', `${data}`);
+
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://c.gp.qq.com/gp/api/php/act_getscoretasklist.php',
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/109.0.5414.86 MQQBrowser/6.2 TBS/046905 Mobile Safari/537.36;GameHelper_20004/3.26.2.1274.2102091384',
+                'Accept': 'application/json, text/plain, */*',
+                'origin': 'https://c.gp.qq.com',
+                'x-requested-with': 'com.tencent.gamehelper.pg',
+                'sec-fetch-site': 'same-origin',
+                'sec-fetch-mode': 'cors',
+                'sec-fetch-dest': 'empty',
+                'referer': 'https://c.gp.qq.com/camp/activity/index',
+                'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+                ...v.getHeaders()
+            },
+            data: v
+        };
+        log('🔰   ==>   获取任务奖励列表');
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0) {
+            let taskList = result.data.taskList
+            for (let task of taskList) {
+                if (task.status == 2) {
+                    log(`任务 ${task.briefDesc} ,完成啦,去领取奖励~~~`)
+                    await receiveAward(task.taskId)
+                    await $.wait(3 * 1000);
+                }
+            }
+        } else {
+            Notify = 1;
+            log(`❌   <==   失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
+
+}
+/**
+ * 领取任务奖励
+ */
+async function receiveAward(taskId) {
+    try {
+        let v = new FormData();
+        v.append('taskId', taskId);
+        v.append('roleId', '2565952684');
+        v.append('serverIndex', '5');
+        v.append('timestamp', '1716366515');
+        v.append('algorithm', 'v2');
+        v.append('appid', 'wxb7659468ecf2f4ce');
+        v.append('sig', '506c7a452d63893b284f4f36513f4515');
+        v.append('source', 'heping_yingdi');
+        v.append('encode', '2');
+        v.append('openid', 'o7KEU0tYa4Dc0RCvhfBR129DNgbw');
+        v.append('version', '3.1.96i');
+        v.append('msdkEncodeParam', `${data}`);
+
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://c.gp.qq.com/gp/api/php/completescoretask.php',
+            headers: { 
+              'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/109.0.5414.86 MQQBrowser/6.2 TBS/046905 Mobile Safari/537.36;GameHelper_20004/3.26.2.1274.2102091384', 
+              'Accept': 'application/json, text/plain, */*', 
+              'origin': 'https://c.gp.qq.com', 
+              'x-requested-with': 'com.tencent.gamehelper.pg', 
+              'sec-fetch-site': 'same-origin', 
+              'sec-fetch-mode': 'cors', 
+              'sec-fetch-dest': 'empty', 
+              'referer': 'https://c.gp.qq.com/camp/activity/index', 
+              'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7', 
+              ...v.getHeaders()
+            },
+            data : v
+          };
+        log('🔰   ==>   领取奖励');
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0) {
+            log(`✔️   <==   领取成功`)
+        } else {
+            if (result.returnCode != -71502) {
+                Notify = 1;
+            }
+            log(`❌   <==   领取失败，原因是: ${result.returnMsg} `)
         }
     } catch (error) {
         log(error)
