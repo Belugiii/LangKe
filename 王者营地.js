@@ -10,6 +10,8 @@ let data = ''; // 当前执行的账号数据
 let msg = ''; // 通知的内容
 const FormData = require('form-data');
 
+const qs = require('qs');
+
 !(async () => {
 
     if (!(await Envs()))
@@ -19,7 +21,7 @@ const FormData = require('form-data');
         for (let index = 0; index < variables.length; index++) {
             log(`========= 开始【第 ${index + 1} 个账号】=========`)
             data = variables[index];
-            let params = str.split("&")
+            let params = data.split("&")
             data = {
                 userid: params[0],
                 token: params[1]
@@ -27,7 +29,11 @@ const FormData = require('form-data');
             debug(`data:${data}`)
             await signIn();
             await $.wait(2 * 1000);
+            await doTheTask();
+            await $.wait(2 * 1000);
             await missionRewards();
+            await $.wait(2 * 1000);
+            await missionRewardsDaily();
             await $.wait(2 * 1000);
         }
     }
@@ -47,19 +53,19 @@ async function signIn() {
             method: 'post',
             maxBodyLength: Infinity,
             url: 'https://kohcamp.qq.com/operation/action/newsignin',
-            headers: { 
-              'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36;GameHelper; smobagamehelper; Brand: Xiaomi MI 9$', 
-              'Accept': 'application/json, text/plain, */*', 
-              'Accept-Encoding': 'gzip, deflate', 
-              'Content-Type': 'application/json', 
-              'userid': `${data.userid}`, 
-              'token': `${data.token}`, 
-              'origin': 'https://camp.qq.com', 
-              'referer': 'https://camp.qq.com/h5/webdist/welfare-center/index.html', 
-              'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7'
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36;GameHelper; smobagamehelper; Brand: Xiaomi MI 9$',
+                'Accept': 'application/json, text/plain, */*',
+                'Accept-Encoding': 'gzip, deflate',
+                'Content-Type': 'application/json',
+                'origin': 'https://camp.qq.com',
+                'referer': 'https://camp.qq.com/h5/webdist/welfare-center/index.html',
+                'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
             },
-            data : JSON.stringify({"cSystem": "android","h5Get": 1,"gameId": "20001","roleId": "108400113"})
-          };
+            data: JSON.stringify({ "cSystem": "android", "h5Get": 1, "gameId": "20001", "roleId": "108400113" })
+        };
         let response = await fetchData(option);
         if (response.code != 200) {
             return
@@ -77,6 +83,81 @@ async function signIn() {
         log(error)
     }
 
+}
+/**
+ * 做任务
+ */
+async function doTheTask() {
+    try {
+        // 点赞资讯
+        await like(true);
+        await $.wait(2 * 1000);
+        // 取消点赞
+        await like(false);
+    } catch (error) {
+        log(error)
+    }
+}
+async function like(flag) {
+    try {
+        flag = flag ? 1 : 0;
+        log('🔰   ==>   开始点赞');
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://ssl.kohsocialapp.qq.com:10001/user/addlike',
+            headers: { 
+              'User-Agent': 'okhttp/4.9.1', 
+              'Accept-Encoding': 'gzip', 
+              'Content-Type': 'application/x-www-form-urlencoded', 
+              'tinkerid': '2037879003_64_0', 
+              'userid': `${data.userid}`,
+              'token': `${data.token}`
+            },
+            data : qs.stringify({
+                'iInfoId': '180622994',
+                'docid': '12683475848706949544',
+                'like': flag,
+                'cChannelId': '10003898',
+                'cClientVersionCode': '2037879003',
+                'cClientVersionName': '8.92.0125',
+                'cCurrentGameId': '20001',
+                'cGameId': '20001',
+                'cGzip': '1',
+                'cIsArm64': 'true',
+                'cRand': '1716403978947',
+                'cSupportArm64': 'true',
+                'cSystem': 'android',
+                'cSystemVersionCode': '30',
+                'cSystemVersionName': '11',
+                'cpuHardware': 'qcom',
+                'encodeParam': '7Rxs/vMPJLRKOCUCBKXSdkmaMDVNOlcEG6JqPYnVtcBXCqlJCTdIwCe7vsKIsqaQXHccWMXyjwmX70xP4pMeKRCJMltn6oyaN9w1/QXmTkNNeJ67Lt/9p8WAyZukkQNODK52dw==',
+                'gameAreaId': '1',
+                'gameId': '20001',
+                'gameOpenId': '5352F330D3F66C8C36BA985E2A41CF84',
+                'gameRoleId': '108400113',
+                'gameServerId': '1182',
+                'gameUserSex': '1',
+                'openId': '009C196E362B0BE2BCDB2D3D55480C99',
+                'tinkerId': '2037879003_64_0',
+                'token': `${data.token}`,
+                'userId': `${data.userid}` 
+              })
+          };
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0) {
+            log(`✔️   <==   操作成功,当前点赞状态${result.data.like ? '✔️👍️' : '❌👍️'}`)
+        } else {
+            Notify = 1;
+            log(`❌   <==   操作失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
 }
 /**
  * 任务奖励
@@ -138,17 +219,107 @@ async function receiveAward(taskId) {
             method: 'post',
             maxBodyLength: Infinity,
             url: 'https://kohcamp.qq.com/operation/action/rewardtask',
-            headers: { 
-              'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36;GameHelper; smobagamehelper; Brand: Xiaomi MI 9$', 
-              'Accept': 'application/json, text/plain, */*', 
-              'Accept-Encoding': 'gzip, deflate', 
-              'Content-Type': 'application/json', 
-              'origin': 'https://camp.qq.com',
-              'userid': `${data.userid}`, 
-              'token': `${data.token}`
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36;GameHelper; smobagamehelper; Brand: Xiaomi MI 9$',
+                'Accept': 'application/json, text/plain, */*',
+                'Accept-Encoding': 'gzip, deflate',
+                'Content-Type': 'application/json',
+                'origin': 'https://camp.qq.com',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
             },
-            data : JSON.stringify({"cSystem": "android","h5Get": 1,"taskIds": [taskId],"mRoleIds": [{"roleId": "108400113","gameId": "20001"}]})
-          };
+            data: JSON.stringify({ "cSystem": "android", "h5Get": 1, "taskIds": [taskId], "mRoleIds": [{ "roleId": "108400113", "gameId": "20001" }] })
+        };
+        log('🔰   ==>   领取奖励');
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0) {
+            log(`✔️   <==   领取成功`)
+        } else {
+            if (result.returnCode != -71502) {
+                Notify = 1;
+            }
+            log(`❌   <==   领取失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
+
+}
+/**
+ * 每日任务_任务奖励
+ */
+async function missionRewardsDaily() {
+    try {
+
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://kohcamp.qq.com/operation/action/tasklist',
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36;GameHelper; smobagamehelper; Brand: Xiaomi MI 9$',
+                'Accept': 'application/json, text/plain, */*',
+                'Accept-Encoding': 'gzip, deflate',
+                'Content-Type': 'application/json',
+                'origin': 'https://camp.qq.com',
+                'referer': 'https://camp.qq.com/h5/webdist/welfare-center/index.html',
+                'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
+            },
+            data: JSON.stringify({ "cSystem": "android", "h5Get": 1, "gameId": "50001", "serverId": "1182", "roleId": "108400113" })
+        };
+        log('🔰   ==>   获取任务奖励列表');
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0) {
+            let taskList = result.data.taskList
+            for (let task of taskList) {
+                if (task.finishStatus == 1 && task.packageStatus == 0) {
+                    log(`任务 ${task.title} ,完成啦,去领取奖励~~~`)
+                    await receiveAwardDaily(task.taskId)
+                    await $.wait(3 * 1000);
+                }
+            }
+        } else {
+            Notify = 1;
+            log(`❌   <==   失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
+
+}
+/**
+ * 每日任务_领取任务奖励
+ */
+async function receiveAwardDaily(taskId) {
+    try {
+
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://kohcamp.qq.com/operation/action/rewardtask',
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36;GameHelper; smobagamehelper; Brand: Xiaomi MI 9$',
+                'Accept': 'application/json, text/plain, */*',
+                'Accept-Encoding': 'gzip, deflate',
+                'Content-Type': 'application/json',
+                'timestamp': '1716403403420',
+                'origin': 'https://camp.qq.com',
+                'referer': 'https://camp.qq.com/h5/webdist/welfare-center/index.html',
+                'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
+            },
+            data: JSON.stringify({ "cSystem": "android", "h5Get": 1, "taskIds": ["2024010800002"], "mRoleIds": [] })
+        }
         log('🔰   ==>   领取奖励');
         let response = await fetchData(option);
         if (response.code != 200) {
