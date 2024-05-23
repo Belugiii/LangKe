@@ -26,9 +26,11 @@ const qs = require('qs');
                 userid: params[0],
                 token: params[1]
             }
-            debug(`data:${data}`)
+            debug(`data:${data}`);
+            // 签到
             await signIn();
             await $.wait(2 * 1000);
+            // 做任务
             await doTheTask();
             await $.wait(2 * 1000);
             await missionRewards();
@@ -94,27 +96,33 @@ async function doTheTask() {
         await $.wait(2 * 1000);
         // 取消点赞
         await like(false);
+        await $.wait(2 * 1000);
+        // 浏览资讯任务
+        await browseInformation();
+        await $.wait(2 * 1000);
     } catch (error) {
         log(error)
     }
 }
+
+// 点赞任务
 async function like(flag) {
     try {
+        log(`🔰   ==>   ${flag ? '点赞' : '取消点赞'}`);
         flag = flag ? 1 : 0;
-        log('🔰   ==>   开始点赞');
         let option = {
             method: 'post',
             maxBodyLength: Infinity,
             url: 'https://ssl.kohsocialapp.qq.com:10001/user/addlike',
-            headers: { 
-              'User-Agent': 'okhttp/4.9.1', 
-              'Accept-Encoding': 'gzip', 
-              'Content-Type': 'application/x-www-form-urlencoded', 
-              'tinkerid': '2037879003_64_0', 
-              'userid': `${data.userid}`,
-              'token': `${data.token}`
+            headers: {
+                'User-Agent': 'okhttp/4.9.1',
+                'Accept-Encoding': 'gzip',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'tinkerid': '2037879003_64_0',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
             },
-            data : qs.stringify({
+            data: qs.stringify({
                 'iInfoId': '180622994',
                 'docid': '12683475848706949544',
                 'like': flag,
@@ -141,9 +149,9 @@ async function like(flag) {
                 'openId': '009C196E362B0BE2BCDB2D3D55480C99',
                 'tinkerId': '2037879003_64_0',
                 'token': `${data.token}`,
-                'userId': `${data.userid}` 
-              })
-          };
+                'userId': `${data.userid}`
+            })
+        };
         let response = await fetchData(option);
         if (response.code != 200) {
             return
@@ -159,6 +167,74 @@ async function like(flag) {
         log(error)
     }
 }
+
+// 浏览资讯任务
+async function browseInformation() {
+    try {
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://ssl.kohsocialapp.qq.com:10001/game/detailinfov3',
+            headers: {
+                'User-Agent': 'okhttp/4.9.1',
+                'Accept-Encoding': 'gzip',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
+            },
+            data: qs.stringify({
+                'apiVersion': '1',
+                'extContents': '{"infoFrom":"home"}',
+                'friendReadNum': '0',
+                'goPickComment': '0',
+                'iInfoId': '180622994',
+                'pos': '0',
+                'scrollToComment': '0',
+                'targetCommentId': '0',
+                'targetCommentTime': '0',
+                'taskId': '0',
+                'cChannelId': '10003898',
+                'cClientVersionCode': '2037879003',
+                'cClientVersionName': '8.92.0125',
+                'cCurrentGameId': '20001',
+                'cGameId': '20001',
+                'cGzip': '1',
+                'cIsArm64': 'true',
+                'cRand': '1716403919501',
+                'cSupportArm64': 'true',
+                'cSystem': 'android',
+                'cSystemVersionCode': '30',
+                'cSystemVersionName': '11',
+                'cpuHardware': 'qcom',
+                'encodeParam': 'ey2WoIBMH5HTfksVlVJ9MVtxdb6TLLepW9bgHMPUeWKC8ODvcG7yhbznuI93w6t6nVZD68Y0ahRTJK/DEmjHvll9FPOpcStVLJxawQSV wqrF0zFJJq/SEUh6  AjCqoJhiPMg==',
+                'gameAreaId': '1',
+                'gameId': '20001',
+                'gameOpenId': '5352F330D3F66C8C36BA985E2A41CF84',
+                'gameRoleId': '108400113',
+                'gameServerId': '1182',
+                'gameUserSex': '1',
+                'openId': '009C196E362B0BE2BCDB2D3D55480C99',
+                'tinkerId': '2037879003_64_0',
+                'token': 'hRdCwfEq',
+                'userId': '21733683'
+            })
+        };
+        log('🔰   ==>   开始浏览资讯')
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0) {
+            log(`✔️   <==   浏览资讯成功`)
+        } else {
+            Notify = 1;
+            log(`❌   <==   浏览资讯失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
+}
 /**
  * 任务奖励
  */
@@ -169,22 +245,22 @@ async function missionRewards() {
             method: 'post',
             maxBodyLength: Infinity,
             url: 'https://kohcamp.qq.com/operation/action/tasklist',
-            headers: { 
-              'User-Agent': 'okhttp/4.9.1', 
-              'Accept-Encoding': 'gzip', 
-              'Content-Type': 'application/json', 
-              'istrpcrequest': 'true', 
-              'openid': '009C196E362B0BE2BCDB2D3D55480C99', 
-              'userid': `${data.userid}`, 
-              'token': `${data.token}`, 
+            headers: {
+                'User-Agent': 'okhttp/4.9.1',
+                'Accept-Encoding': 'gzip',
+                'Content-Type': 'application/json',
+                'istrpcrequest': 'true',
+                'openid': '009C196E362B0BE2BCDB2D3D55480C99',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`,
             },
-            data : JSON.stringify({
+            data: JSON.stringify({
                 "gameId": "20001",
                 "recommendPrivacy": 0,
                 "roleId": "108400113",
                 "serverId": "1182"
-              })
-          };
+            })
+        };
         log('🔰   ==>   获取任务奖励列表');
         let response = await fetchData(option);
         if (response.code != 200) {
@@ -214,7 +290,6 @@ async function missionRewards() {
  */
 async function receiveAward(taskId) {
     try {
-
         let option = {
             method: 'post',
             maxBodyLength: Infinity,
