@@ -318,7 +318,7 @@ async function receiveAwardDaily(taskId) {
                 'userid': `${data.userid}`,
                 'token': `${data.token}`
             },
-            data: JSON.stringify({ "cSystem": "android", "h5Get": 1, "taskIds": ["2024010800002"], "mRoleIds": [] })
+            data: JSON.stringify({ "cSystem": "android", "h5Get": 1, "taskIds": [taskId], "mRoleIds": [] })
         }
         log('🔰   ==>   领取奖励');
         let response = await fetchData(option);
