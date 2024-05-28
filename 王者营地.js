@@ -215,8 +215,8 @@ async function browseInformation() {
                 'gameUserSex': '1',
                 'openId': '009C196E362B0BE2BCDB2D3D55480C99',
                 'tinkerId': '2037879003_64_0',
-                'token': 'hRdCwfEq',
-                'userId': '21733683'
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
             })
         };
         log('🔰   ==>   开始浏览资讯')
