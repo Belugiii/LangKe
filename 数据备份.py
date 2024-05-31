@@ -2,7 +2,7 @@
 # coding: utf-8
 '''
 cron: 0 2 * * 7
-new Env('青龙备份');
+new Env('数据备份');
 '''
 import logging
 import os
