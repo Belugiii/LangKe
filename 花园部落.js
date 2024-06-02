@@ -19,6 +19,7 @@ let msg = ''; // 通知的内容
             log(`========= 开始【第 ${index + 1} 个账号】=========`)
             data = variables[index];
             debug(`data:${data}`)
+            data = toLowerCaseProperties(JSON.parse(data))
             await signIn();
             await $.wait(2 * 1000);
         }
@@ -35,6 +36,19 @@ let msg = ''; // 通知的内容
 async function signIn() {
     try {
         log('🔰   ==>   开始签到');
+        let d = JSON.stringify({
+            "MallID": data.mallid,
+            "Header": {
+              "Token": data.header.token,
+              "systemInfo": {
+                "model": "MI 9",
+                "SDKVersion": "3.3.5",
+                "system": "Android 11",
+                "version": "8.0.47",
+                "miniVersion": "DZ.2.67.6.ZSJT.G.12"
+              }
+            }
+          });
     
         let option = {
             method: 'post',
@@ -157,3 +171,21 @@ async function fetchData(option) {
     debug(JSON.stringify(result))
     return result
 }
+
+function toLowerCaseProperties(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+      // 非对象或数组，直接返回
+      return obj;
+    }
+   
+    // 对于数组，遍历每个元素
+    if (Array.isArray(obj)) {
+      return obj.map(toLowerCaseProperties);
+    }
+   
+    // 对于对象，遍历每个属性，转换为小写
+    return Object.keys(obj).reduce((lowerCaseObj, key) => {
+      lowerCaseObj[key.toLowerCase()] = toLowerCaseProperties(obj[key]);
+      return lowerCaseObj;
+    }, {});
+  }
