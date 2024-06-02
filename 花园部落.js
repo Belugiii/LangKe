@@ -57,7 +57,6 @@ async function signIn() {
             headers: { 
               'Host': 'm.mallcoo.cn', 
               'Connection': 'keep-alive', 
-              'Content-Length': '219', 
               'content-type': 'application/json', 
               'Accept-Encoding': 'gzip,compress,br,deflate', 
               'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.44(0x18002c2f) NetType/4G Language/zh_CN', 
