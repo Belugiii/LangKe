@@ -1,6 +1,6 @@
 // cron: 0 8 * * *
 const $ = new Env('鸿星尔克');
-const ckName = "hxek"; // 抓取 https://hope.demogic.com 请求头中的 memberId 和 enterpriseId 用&进行分隔 示例 : memberId&enterpriseId
+const ckName = "hxek"; // 抓取 https://hope.demogic.com 请求体中的 memberId 和 enterpriseId 用&进行分隔 示例 : memberId&enterpriseId
 var Notify = 0; // 0为关闭通知，1为打开通知,默认为1
 const debugging = 0; // 0为关闭调试，1为打开调试,默认为0
 // 无需更改下方变量
