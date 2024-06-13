@@ -113,7 +113,7 @@ async function doTheTask() {
 
             let writings = result.data.list;
 
-            let infoContent = writings[0].infoContent;
+            let infoContent = writings[writings.length - 1].infoContent;
             let infoId = infoContent.infoId;
             await browseInformation(infoId);
             await $.wait(2 * 1000);
