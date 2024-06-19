@@ -37,6 +37,8 @@ const qs = require('qs');
             await $.wait(2 * 1000);
             await missionRewardsDaily();
             await $.wait(2 * 1000);
+            // 社区签到
+            await communal();
         }
     }
 
@@ -115,6 +117,10 @@ async function doTheTask() {
 
             let infoContent = writings[writings.length - 1].infoContent;
             let infoId = infoContent.infoId;
+            if(!infoId){
+                log("没有找到资讯");
+                return;
+            }
             await browseInformation(infoId);
             await $.wait(2 * 1000);
             await like(infoId, true);
@@ -397,6 +403,92 @@ async function receiveAwardDaily(taskId) {
             if (result.returnCode != -71502) {
                 Notify = 1;
             }
+            log(`❌   <==   领取失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
+
+}
+/**
+ * 每日任务_领取任务奖励
+ */
+async function communal() {
+    try {
+
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://kohcamp.qq.com/bbs/hotbbs',
+            headers: {
+                'User-Agent': 'okhttp/4.9.1',
+                'Content-Type': 'application/json',
+                'userid': `${data.userid}`,
+                'token': `${data.token}`
+            },
+            data: JSON.stringify({
+                "recommendPrivacy": 0,
+                "needHotBbs": false
+              })
+        };
+        log('🔰   ==>   获取圈子列表');
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0) {
+            
+            let list = result.data.myBbsList.list
+            for(q of list){
+                log(`🔰   ==>   去给${q.base.title}签到`);
+                await communalCheck(q.base.bbsId);
+            }
+
+        } else {
+            log(`❌   <==   领取失败，原因是: ${result.returnMsg} `)
+        }
+    } catch (error) {
+        log(error)
+    }
+
+}
+/**
+ * 每日任务_领取任务奖励
+ */
+async function communalCheck(bbsId) {
+    try {
+
+        let option = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://ssl.kohsocialapp.qq.com:10001/moment/bbssign',
+            headers: { 
+              'User-Agent': 'okhttp/4.9.1', 
+              'Accept-Encoding': 'gzip', 
+              'Content-Type': 'application/x-www-form-urlencoded', 
+              'gameid': '20001', 
+              'userid': `${data.userid}`,
+              'token': `${data.token}`
+            },
+            data : qs.stringify({
+                'bbsId': bbsId.toString(),
+                'gameId': '20001',
+                'userId': `${data.userid}`,
+                'token': `${data.token}`
+              })
+          };
+          
+        let response = await fetchData(option);
+        if (response.code != 200) {
+            return
+        }
+        result = response.data
+        if (result.returnCode == 0 && result.data.toastText) {
+            
+            log(`✔️   <==   签到成功,${result.data.toastText}`)
+
+        } else {
             log(`❌   <==   领取失败，原因是: ${result.returnMsg} `)
         }
     } catch (error) {
