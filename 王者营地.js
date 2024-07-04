@@ -169,7 +169,6 @@ async function like(iInfoId, flag) {
         if (result.returnCode == 0) {
             log(`✔️   <==   操作成功,当前点赞状态${result.data.like ? '✔️👍️' : '❌👍️'}`)
         } else {
-            Notify = 1;
             log(`❌   <==   操作失败，原因是: ${result.returnMsg} `)
         }
     } catch (error) {
@@ -205,7 +204,6 @@ async function browseInformation(iInfoId) {
         if (result.returnCode == 0) {
             log(`✔️   <==   浏览资讯成功`)
         } else {
-            Notify = 1;
             log(`❌   <==   浏览资讯失败，原因是: ${result.returnMsg} `)
         }
     } catch (error) {
@@ -239,7 +237,6 @@ async function share() {
         if (result.returnCode == 0) {
             log(`✔️   <==   分享资讯成功`)
         } else {
-            Notify = 1;
             log(`❌   <==   分享资讯失败，原因是: ${result.returnMsg} `)
         }
     } catch (error) {
@@ -285,7 +282,6 @@ async function missionRewards() {
                 }
             }
         } else {
-            Notify = 1;
             log(`❌   <==   失败，原因是: ${result.returnMsg} `)
         }
     } catch (error) {
@@ -365,7 +361,6 @@ async function missionRewardsDaily() {
                 }
             }
         } else {
-            Notify = 1;
             log(`❌   <==   失败，原因是: ${result.returnMsg} `)
         }
     } catch (error) {
