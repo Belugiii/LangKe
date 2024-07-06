@@ -19,6 +19,7 @@ class Task {
     }
 
     async main() {
+        $.log(`====开始执行第${this.index}个账号====`)
         await this.init();
         if (!this.ckStatus) return;
         await this.sign();
@@ -55,7 +56,9 @@ class Task {
             this.formhash = doc.getElementsByName('formhash')[0].value;
             if(!this.formhash){
                 this.ckStatus = false;
+                return
             }
+            $.log(`当前账号的formhash:${this.formhash}`)
         } catch (e) {
             console.log(e);
             this.ckStatus = false;
@@ -65,7 +68,11 @@ class Task {
     async sign() {
         try {
             let result = await this.taskRequest("post", `https://bbs.125.la/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1`, { 'content-type': 'application/x-www-form-urlencoded; charset=UTF-8' }, "formhash=" + this.formhash + "&submit=1&targerurl=&todaysay=&qdxq=kx")
-            $.log(`${JSON.stringify(result)}`);
+            if(result.status == 1){
+                $.log(`签到成功,获得${result.credit}精币!`)
+            }else if(result.status == 0){
+                $.log(`${result.msg}`)
+            }
         } catch (e) {
             Notify++;
             console.log(e);
