@@ -114,9 +114,15 @@ async function doTheTask() {
             }
 
             let writings = result.data.list;
+            let infoId;
+            for (let index = writings.length - 1; index >= 0; index--) {
+                let infoContent = writings[index].infoContent;
+                if(infoContent && infoContent.infoId){
+                    infoId = infoContent.infoId;
+                    break;
+                }
+            }
 
-            let infoContent = writings[writings.length - 1].infoContent;
-            let infoId = infoContent.infoId;
             if(!infoId){
                 log("没有找到资讯");
                 return;
