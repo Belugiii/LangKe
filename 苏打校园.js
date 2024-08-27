@@ -26,7 +26,7 @@ class Task {
         await this.getIntegral();
         await this.getCash();
         $.log(`积分: ${this.integral} 现金: ${this.cash}`);
-        if(this.cash && this.cash > 0.3){
+        if(this.cash && this.cash >= 0.3){
             await this.payOuts();
         }
         await $.wait(2 * 1000);
@@ -106,7 +106,6 @@ class Task {
     async payOuts() {
         try {
             let result = await this.taskRequest("post", `https://api.sodalife.xyz/hydr/v1/asset/mine/assets/FH6FCQXCAQDDTH4H/actions/withdrawal`,{'x-soda-channel': 'APP_ANDROID_SODA'},{"attachment":{"withdrawTo":{"app":"ALIPAY"}},"configId":"9WL4AD6MTN"});
-            $.log(result.status);
             if(result.status != "OK"){
                 throw new Error(result.message);
             }else{
