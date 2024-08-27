@@ -105,7 +105,7 @@ class Task {
     // 提现到支付宝0.3
     async payOuts() {
         try {
-            let result = await this.taskRequest("post", `https://api.sodalife.xyz/hydr/v1/asset/mine/assets/FH6FCQXCAQDDTH4H/actions/withdrawal`,{},{"attachment":{"withdrawTo":{"app":"ALIPAY"}},"configId":"9WL4AD6MTN"});
+            let result = await this.taskRequest("post", `https://api.sodalife.xyz/hydr/v1/asset/mine/assets/FH6FCQXCAQDDTH4H/actions/withdrawal`,{'x-soda-channel': 'APP_ANDROID_SODA'},{"attachment":{"withdrawTo":{"app":"ALIPAY"}},"configId":"9WL4AD6MTN"});
             $.log(result.status);
             if(result.status != "OK"){
                 throw new Error(result.message);
