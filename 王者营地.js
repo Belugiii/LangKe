@@ -164,7 +164,7 @@ class Task {
             this.balance = result.data.myCurrency;
             for (let task of taskList) {
                 if (task.finishStatus == 1 && task.packageStatus == 0) {
-                    await this.receiveAward(task.taskId);
+                    await this.receiveAward(task.taskId,task.title);
                     await $.wait(3 * 1000);
                 }
             }
@@ -175,15 +175,15 @@ class Task {
         }
     }
     // 领取任务奖励
-    async receiveAward(taskId) {
+    async receiveAward(taskId,title) {
         try {
             let result = await this.taskRequest("post", `https://kohcamp.qq.com/operation/action/rewardtask`, {}, { "cSystem": "android", "h5Get": 1, "taskIds": [taskId], "mRoleIds": [{ "roleId": this.roleId, "gameId": "20001" }] })
             if (result.returnCode != 0) {
-                $.log(`领取奖励: 领取失败❌ 原因: ${result.returnMsg}`);
+                $.log(`领取[${title}]奖励: 领取失败❌ 原因: ${result.returnMsg}`);
                 return;
             }
 
-            $.log(`领取奖励: 领取成功✔️`);
+            $.log(`领取[${title}]奖励: 领取成功✔️`);
 
         } catch (e) {
             Notify++;
@@ -202,7 +202,7 @@ class Task {
             let taskList = result.data.taskList;
             for (let task of taskList) {
                 if (task.finishStatus == 1 && task.packageStatus == 0) {
-                    await this.receiveAwardDaily(task.taskId)
+                    await this.receiveAwardDaily(task.taskId,task.title)
                     await $.wait(3 * 1000);
                 }
             }
@@ -223,15 +223,15 @@ class Task {
         }
     }
     // 领取任务奖励_每日任务
-    async receiveAwardDaily(taskId) {
+    async receiveAwardDaily(taskId,title) {
         try {
             let result = await this.taskRequest("post", `https://kohcamp.qq.com/operation/action/rewardtask`, {}, { "cSystem": "android", "h5Get": 1, "taskIds": [taskId], "mRoleIds": [] })
             if (result.returnCode != 0) {
-                $.log(`领取奖励: 领取失败❌ 原因: ${result.returnMsg}`);
+                $.log(`领取[${title}]奖励: 领取失败❌ 原因: ${result.returnMsg}`);
                 return;
             }
 
-            $.log(`领取奖励: 领取成功✔️`);
+            $.log(`领取[${title}]奖励: 领取成功✔️`);
 
         } catch (e) {
             Notify++;
