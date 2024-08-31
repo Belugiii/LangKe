@@ -112,8 +112,7 @@ class Task {
                 $.log(result.message);
             }
         } catch (e) {
-            Notify++;
-            console.log(e.message);
+            $.log(e.message);
         }   
     }
 }
