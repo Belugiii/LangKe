@@ -4,7 +4,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let ckName = "wzyd";
 let Notify = 0;
 let ps = `
-    提示: 抓取[${$.name}]APP(https://kohcamp.qq.com)请求头中的userid和token,变量名:${ckName},多个账号使用@或换行分隔!!! 示例: userid&token
+    提示: 抓取[${$.name}]APP(https://kohcamp.qq.com)请求头中的userid和token和gameroleid,变量名:${ckName},多个账号使用@或换行分隔!!! 示例: userid&token&gameroleid
 `
 let envSplitor = ["@", "\n", "\r\n"]; //多账号分隔符
 let strSplitor = "&"; //多变量分隔符
