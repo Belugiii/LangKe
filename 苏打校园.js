@@ -27,7 +27,7 @@ class Task {
         await this.getCash();
         $.log(`积分: ${this.integral} 现金: ${this.cash}`);
         if(this.cash && this.cash >= 0.3){
-            await this.payOuts();
+            // await this.payOuts();
         }
         await $.wait(2 * 1000);
     }
