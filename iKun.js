@@ -6,7 +6,7 @@ let Notify = 0;
 let ps = `
     提示: 填写[${$.name}]网页(https://ikuuu.one)的用户名和密码,变量名:${ckName},多个账号使用@或换行分隔!!! 示例: username&password
 `
-let envSplitor = ["@", "\n", "\r\n"]; //多账号分隔符
+let envSplitor = ["\n", "\r\n"]; //多账号分隔符
 let strSplitor = "&"; //多变量分隔符
 let userIdx = 0;
 let userList = [];
