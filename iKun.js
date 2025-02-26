@@ -53,7 +53,6 @@ class Task {
 				form.append("email", this.username);
 				form.append("passwd", this.password);
             let result = await this.taskRequest("post", `https://ikuuu.one/auth/login`, {}, form);
-			console.log(result.headers['set-cookie'])
             this.cookie = result.headers['set-cookie'].join(";");
 			if (!this.cookie) throw new Error('获取用户cookie失败,请检查用户名或密码!!😭');
 			if(this.cookie) this.ckStatus = true;
