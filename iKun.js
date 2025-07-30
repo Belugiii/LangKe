@@ -52,7 +52,7 @@ class Task {
 			let form = new FormData();
 				form.append("email", this.username);
 				form.append("passwd", this.password);
-            let result = await this.taskRequest("post", `https://ikuuu.one/auth/login`, {}, form);
+            let result = await this.taskRequest("post", `https://ikuuu.ch/auth/login`, {}, form);
             this.cookie = result.headers['set-cookie'].join(";");
 			if (!this.cookie) throw new Error('获取用户cookie失败,请检查用户名或密码!!😭');
 			if(this.cookie) this.ckStatus = true;
@@ -64,7 +64,7 @@ class Task {
     // 签到
     async sign() {
         try {
-            let result = await this.taskRequest("post", `https://ikuuu.one/user/checkin`);
+            let result = await this.taskRequest("post", `https://ikuuu.ch/user/checkin`);
             console.log(result.data.msg)
         } catch (e) {
             Notify++;
