@@ -3,6 +3,7 @@ const $ = new Env("iKun签到");
 const notify = $.isNode() ? require('./sendNotify') : '';
 let ckName = "ikun";
 let Notify = 0;
+let host = "https://ikuuu.de"
 let ps = `
     提示: 填写[${$.name}]网页(https://ikuuu.one)的用户名和密码,变量名:${ckName},多个账号使用@或换行分隔!!! 示例: username&password
 `
@@ -52,7 +53,7 @@ class Task {
 			let form = new FormData();
 				form.append("email", this.username);
 				form.append("passwd", this.password);
-            let result = await this.taskRequest("post", `https://ikuuu.ch/auth/login`, {}, form);
+            let result = await this.taskRequest("post", `${host}/auth/login`, {}, form);
             this.cookie = result.headers['set-cookie'].join(";");
 			if (!this.cookie) throw new Error('获取用户cookie失败,请检查用户名或密码!!😭');
 			if(this.cookie) this.ckStatus = true;
@@ -64,7 +65,7 @@ class Task {
     // 签到
     async sign() {
         try {
-            let result = await this.taskRequest("post", `https://ikuuu.ch/user/checkin`);
+            let result = await this.taskRequest("post", `${host}/user/checkin`);
             console.log(result.data.msg)
         } catch (e) {
             Notify++;
