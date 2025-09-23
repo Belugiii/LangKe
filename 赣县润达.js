@@ -39,14 +39,14 @@ class Task {
         let { body: result } = await $.httpRequest(reqeuestOptions)
         return result
     }
-    // 获取用户信息
-    async init() {
+    // 签到
+    async sign() {
         try {
             let result = await this.taskRequest("post", `https://a.china-smartech.com/restful/mall/3694/checkInRecord`,{},{"latitude":0,"longitude":0});
             if(result.code != 200) throw new Error(result.msg);
-            log(result.msg)
+            $.log(result.msg)
         } catch (e) {
-            console.log(e.message);
+            $.log(e.message);
             this.ckStatus = false;
         }
     }
