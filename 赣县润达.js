@@ -20,7 +20,7 @@ class Task {
 
     async main() {
         $.log(`========= 开始【第${this.index}个账号】=========`)
-        await this.init();
+        await this.sign();
     }
     async taskRequest(method, url, header = "", body = "") {
 
