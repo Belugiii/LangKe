@@ -1,9 +1,10 @@
 const $ = new Env("鸿星尔克");
+const crypto = require('crypto');
 const notify = $.isNode() ? require('./sendNotify') : '';
 let ckName = "hxek";
 let Notify = 0;
 let ps = `
-    提示: 抓取[${$.name}]小程序(https://hope.demogic.com)请求头中的memberId,变量名:${ckName},多个账号使用@或换行分隔!!! 
+    提示: 抓取[${$.name}]小程序(https://hope.demogic.com)请求头中的memberId,enterpriseId,使用&间隔,变量名:${ckName},多个账号使用@或换行分隔!!! 
 `
 let envSplitor = ["@", "\n", "\r\n"]; //多账号分隔符
 let userIdx = 0;
@@ -13,7 +14,8 @@ let ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML li
 class Task {
     constructor(str) {
         this.index = ++userIdx;
-        this.memberId = str;
+        this.memberId = str.split('&')[0];
+        this.enterpriseId = str.split('&')[1];
         this.ckStatus = false;
         this.memberName,this.accumulatPoints;
     }
@@ -31,7 +33,7 @@ class Task {
 
         let headers = { 
             'User-Agent': ua, 
-            'sign': this.token, 
+            'sign': this.memberId, 
             'Referer': 'https://servicewechat.com/wxa1f1fa3785a47c7d/55/page-frame.html', 
             'Content-Type': 'application/x-www-form-urlencoded'
           }
@@ -61,7 +63,31 @@ class Task {
     // 签到
     async sign() {
         try {
-            let result = await this.taskRequest("post", `https://hope.demogic.com/gic-wx-app/member_sign.json`,{},qs.stringify({'memberId': this.memberId}))
+			let appid = 'wxa1f1fa3785a47c7d';
+			let signArry = HXEK_SIGN(this.memberId,appid)
+			let sign = signArry[0]
+			let random_int = signArry[1]
+			let timestamp = signArry[2]
+			let transId = appid + timestamp
+			let data = {
+				"path":"pages/points-mall/member-task/member-task",
+				"query":{},
+				"scene":1256,
+				"referrerInfo":{},
+				"apiCategory":"default",
+				'memberId': this.memberId,
+				'cliqueId': '-1',
+				'cliqueMemberId': '-1',
+				'useClique': '0',
+				'enterpriseId': this.enterpriseId,
+				'appid': appid,
+				'gicWxaVersion': '3.9.16',
+				'random' : random_int,
+				'sign' : sign,
+				'timestamp' : timestamp,
+				'transId' : transId,
+			  }
+            let result = await this.taskRequest("post", `https://hope.demogic.com/gic-wx-app/member_sign.json`,{},qs.stringify(data))
             if(result.errcode != 0){
                 $.log(`签到: 签到失败❌ 原因: ${result.errmsg}`);
             }else{
@@ -73,6 +99,56 @@ class Task {
             console.log(e);
         }   
     }
+}
+
+
+// 生成GMT+8时间戳
+function getDateTimeString() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const day = now.getDate().toString().padStart(2, '0');
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+// 生成一定范围内的随机数
+function randint(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function HXEK_SIGN(memberId, appid){
+  let signArry = []
+  // appid = "wxa1f1fa3785a47c7d"
+  let secret = 'damogic8888'
+  // GMT+8时间戳
+  // timestamp = '2025-01-11 13:24:09'
+  let timestamp = getDateTimeString()
+  // console.log(timestamp)
+  // 随机数
+  // random_int = 1475835
+  let random_int = randint(1000000, 9999999)
+  // console.log(random_int)
+  // 待加密字符串
+  let raw_string = "timestamp=" + timestamp + "transId=" +appid + timestamp + "secret=" + secret + "random=" + random_int + "memberId=" + memberId
+//   console.log(raw_string)
+  // MD5加密
+  let sign = getsign(raw_string)
+  // console.log(sign)
+  signArry = [sign, random_int, timestamp]
+  return signArry
+}
+
+// 获取sign，返回小写
+function getsign(data) {
+    var sign = crypto.createHash("md5")
+        .update(data, "utf8")
+        .digest("hex")
+        // .toUpperCase() // 大写
+        .toString();
+    return sign;
 }
 
 // 固定代码
