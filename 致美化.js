@@ -121,6 +121,10 @@ class Task {
     .finally(() => $.done());
 async function checkEnv() {
     let userCookie = ($.isNode() ? process.env[ckName] : $.getdata(ckName)) || "";
+    if (userCookie.trim() == "") {
+        // 如果环境变量没获取到，直接使用设置默认的密码
+        userCookie = "username&password";
+    }
     if (userCookie) {
         let e = envSplitor[0];
         for (let o of envSplitor)
