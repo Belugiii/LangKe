@@ -86,7 +86,17 @@ Workflow 会自动安装依赖并运行脚本。
 
 1. 安装 Node.js (>=14.0.0)。
 2. 克隆仓库，运行 `npm install`。
-3. 设置环境变量：`export zmh="username&password"`（或在 Windows 上使用 `set zmh=...`）。
+3. 设置环境变量：
+```bash
+# Linux/Mac
+export zmh="username&password"
+
+# Windows PowerShell
+$env:zmh = 'username&password'
+
+# Windows CMD
+set zmh=username&password
+```
 4. 运行 `node 致美化.js`。
 
 ### 注意事项

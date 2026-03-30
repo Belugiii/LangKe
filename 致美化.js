@@ -123,6 +123,7 @@ async function checkEnv() {
     let userCookie = ($.isNode() ? process.env[ckName] : $.getdata(ckName)) || "";
     if (userCookie.trim() == "") {
         // 如果环境变量没获取到，直接使用设置默认的密码
+        console.log("username&password is null,use the default!")
         userCookie = "username&password";
     }
     if (userCookie) {
