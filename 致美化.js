@@ -10,6 +10,7 @@ let envSplitor = ["@", "\n", "\r\n"]; //多账号分隔符
 let strSplitor = "&"; //多变量分隔符
 let userIdx = 0;
 let userList = [];
+let exitCode = 0;
 let ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36';
 const qs = require('qs');
 class Task {
@@ -105,11 +106,15 @@ class Task {
 
 // 固定代码
 !(async () => {
-    if (!(await checkEnv())) return;
+    if (!(await checkEnv())) {
+        exitCode = -1;
+        return;
+    }
     if (userList.length > 0) {
         let taskall = [];
         for (let user of userList) {
             await user.main(); // 同步
+            if (!user.ckStatus) exitCode = -1;
         }
         // await Promise.all(taskall); 异步
     }
@@ -118,9 +123,20 @@ class Task {
     }
 })()
     .catch((e) => console.log(e))
-    .finally(() => $.done());
+    .finally(() => {
+        const s = new Date().getTime(),
+            e = (s - $.startTime) / 1e3;
+        console.log(`🔔   ==>   ${$.name}, 结束!\n⏰️   ==>   ${getCurrentDateTime()}`);
+        if ($.isNode()) process.exit(exitCode);
+        if ($.isQuanX()) $done();
+    });
 async function checkEnv() {
     let userCookie = ($.isNode() ? process.env[ckName] : $.getdata(ckName)) || "";
+    if (userCookie.trim() == "") {
+        // 如果环境变量没获取到，直接使用设置默认的密码
+        console.log("username&password is null,use the default!")
+        userCookie = "username&password";
+    }
     if (userCookie) {
         let e = envSplitor[0];
         for (let o of envSplitor)
@@ -131,7 +147,7 @@ async function checkEnv() {
         for (let n of userCookie.split(e)) n && userList.push(new Task(n));
     } else {
         console.log(ps);
-        return;
+        return false;
     }
     return console.log(`🏷️   ==>   共找到${userList.length}个账号`), true; //true == !0
 }
