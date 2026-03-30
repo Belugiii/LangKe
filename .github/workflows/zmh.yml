@@ -9,7 +9,7 @@ on:
 
 jobs:
   checkin:
-    runs-on: self-hosted-HP
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
