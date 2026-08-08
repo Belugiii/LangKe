@@ -25,9 +25,9 @@ class Task {
 
     async main() {
         $.log(`========= 开始【第${this.index}个账号】=========`)
-        await this.init();
-        if (!this.ckStatus) return;
-        $.log(`用户名: ${this.nickname}`);
+        //	await this.init();
+        //	if (!this.ckStatus) return;
+        //	$.log(`用户名: ${this.nickname}`);
         await this.sign();
         await this.getInfoId();
         if (this.infoId) {
