@@ -23,6 +23,8 @@ class Task {
     async main() {
         $.log(`========= 开始【第${this.index}个账号】=========`)
         await this.sign();
+		await $.wait(6 * 1000);
+		await this.sign();
     }
     async taskRequest(method, url, header = "", body = "") {
 
@@ -60,11 +62,7 @@ class Task {
     }
     // 签到
     async sign() {
-        try {
-            await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/sign`,{},{"deviceId":this.device_id});
-			
-			await $.wait(6 * 1000);
-			
+        try {			
 			let result = await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/sign`,{},{"deviceId":this.device_id});
             if(result.code != 0) throw new Error(result.msg);
             $.log(`签到: ${result.msg}`)
