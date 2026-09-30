@@ -122,7 +122,7 @@ function randint(min, max) {
 function HXEK_SIGN(memberId, appid){
   let signArry = []
   // appid = "wxa1f1fa3785a47c7d"
-  let secret = 'damogic8888'
+  let secret = ($.isNode() ? process.env.HXEK_SECRET : $.getdata('HXEK_SECRET')) || 'damogic8888'
   // GMT+8时间戳
   // timestamp = '2025-01-11 13:24:09'
   let timestamp = getDateTimeString()
