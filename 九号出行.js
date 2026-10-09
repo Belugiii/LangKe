@@ -9,48 +9,72 @@ let envSplitor = ["@", "\n", "\r\n"]; //多账号分隔符
 let strSplitor = "&"; //多变量分隔符
 let userIdx = 0;
 let userList = [];
-const qs = require('qs');
 let ua = 'Mozilla/5.0 (Linux; Android 11; MI 9 Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36;Segway v6 C'
 class Task {
     constructor(str) {
         this.index = ++userIdx;
-		this.token = str.split(strSplitor)[0];
+        this.token = str.split(strSplitor)[0];
         this.device_id = str.split(strSplitor)[1];
         this.ckStatus = false;
-		this.name;
+        this.name;
     }
 
     async main() {
         $.log(`========= 开始【第${this.index}个账号】=========`)
         await this.sign();
-		await $.wait(6 * 1000);
-		await this.sign();
+        await $.wait(6 * 1000);
+        await this.reward();
     }
     async taskRequest(method, url, header = "", body = "") {
 
-        let headers = { 
-    'Host':'cn-cbu-gateway.ninebot.com',
-	'Connection':'keep-alive',
-	'Pragma':'no-cache',
-	'Cache-Control':'no-cache',
-	'device_id':this.device_id,
-	'language':'zh',
-	'Authorization':this.token,
-	'Content-Type':'application/json',
-	'Accept':'application/json, text/plain, */*',
-	'User-Agent':ua,
-	'sys_language':'zh-CN',
-	'platform':'h5',
-	'Origin':'https://h5-bj.ninebot.com',
-	'X-Requested-With':'cn.ninebot.ninebot',
-	'Sec-Fetch-Site':'same-site',
-	'Sec-Fetch-Mode':'cors',
-	'Sec-Fetch-Dest':'empty',
-	'Referer':'https://h5-bj.ninebot.com/ninebotApp/',
-	'Accept-Encoding':'gzip, deflate',
-	'Accept-Language':'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7'
-  }
-          header ? Object.assign(headers, header) : "";
+        let headers = {
+            'Host': 'cn-cbu-gateway.ninebot.com',
+            'Connection': 'keep-alive',
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+            'device_id': this.device_id,
+            'language': 'zh',
+            'Authorization': this.token,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json, text/plain, */*',
+            'User-Agent': ua,
+            'sys_language': 'zh-CN',
+            'platform': 'h5',
+            'Origin': 'https://h5-bj.ninebot.com',
+            'X-Requested-With': 'cn.ninebot.ninebot',
+            'Sec-Fetch-Site': 'same-site',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Dest': 'empty',
+            'Referer': 'https://h5-bj.ninebot.com/ninebotApp/',
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7'
+        }
+        header ? Object.assign(headers, header) : "";
+
+        // === 先发送 OPTIONS 预检请求 ===
+        try {
+            let optionsHeaders = { ...headers };
+            // OPTIONS 请求不需要 Content-Type 和 body
+            delete optionsHeaders['Content-Type'];
+            delete optionsHeaders['Content-Length'];
+            // 添加 CORS 预检必要头
+            optionsHeaders['Access-Control-Request-Method'] = method.toUpperCase();
+            optionsHeaders['Access-Control-Request-Headers'] = 'content-type,authorization,device_id';
+            optionsHeaders['Origin'] = 'https://h5-bj.ninebot.com';
+
+            //$.log(`[OPTIONS预检] ${method.toUpperCase()} ${url}`);
+            await $.httpRequest({
+                url: url,
+                method: 'options',
+                headers: optionsHeaders
+            });
+            //$.log(`[OPTIONS预检] 完成`);
+        } catch (e) {
+            // OPTIONS 预检失败不影响正式请求，仅打印日志
+            //$.log(`[OPTIONS预检] 失败(忽略): ${e.message}`);
+        }
+        // === OPTIONS 预检结束 ===
+
         const reqeuestOptions = {
             url: url,
             method: method,
@@ -62,9 +86,8 @@ class Task {
     }
     // 签到
     async sign() {
-        try {			
-			let result = await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/sign`,{},{"deviceId":this.device_id});
-            if(result.code != 0) throw new Error(result.msg);
+        try {
+            let result = await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/sign`, {}, { "deviceId": this.device_id });
             $.log(`签到: ${result.msg}`)
         } catch (e) {
             $.log(e.message);
@@ -74,9 +97,29 @@ class Task {
     // 查询签到记录
     async calendar() {
         try {
-            let result = await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/calendar?t=${new Date().getTime()}`,{},{"deviceId":"162b324dac1746078cadaa58bb184532"});
-            if(result.code != 0) throw new Error(result.msg);
+            let result = await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/calendar?t=${new Date().getTime()}`, {}, { "deviceId": this.device_id });
+            if (result.code != 0) throw new Error(result.msg);
             $.log(result.msg)
+        } catch (e) {
+            $.log(e.message);
+            this.ckStatus = false;
+        }
+    }
+    // 连签奖励
+    async reward() {
+        try {
+            let result = await this.taskRequest("get", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/blind-box/list?t=${new Date().getTime()}`);
+            if (result.code != 0) throw new Error(result.msg);
+            let rewards = result.data.notOpenedBoxes
+            for(let reward of rewards){
+                if(reward.rewardStatus == 1){
+                    // 领取奖励
+                    rewardId = reward.blindBoxIds[0]
+                    let result = await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/blind-box/receive`, {}, { "rewardId": rewardId });
+                    if (result.code != 0) throw new Error(result.msg);
+                    $.log(`领取奖励: ${result.msg}`)
+                }
+            }
         } catch (e) {
             $.log(e.message);
             this.ckStatus = false;
@@ -95,7 +138,7 @@ class Task {
         }
         // await Promise.all(taskall); 异步
     }
-    if(Notify){
+    if (Notify) {
         await $.sendMsg($.logs.join("\n"))
     }
 })()
