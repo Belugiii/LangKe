@@ -71,7 +71,7 @@ class Task {
             //$.log(`[OPTIONS预检] 完成`);
         } catch (e) {
             // OPTIONS 预检失败不影响正式请求，仅打印日志
-            //$.log(`[OPTIONS预检] 失败(忽略): ${e.message}`);
+            // $.log(`[OPTIONS预检] 失败(忽略): ${e.message}`);
         }
         // === OPTIONS 预检结束 ===
 
@@ -114,7 +114,7 @@ class Task {
             for(let reward of rewards){
                 if(reward.rewardStatus == 1){
                     // 领取奖励
-                    rewardId = reward.blindBoxIds[0]
+                    let rewardId = reward.blindBoxIds[0]
                     let result = await this.taskRequest("post", `https://cnnx-omsgw.ninebot.com/portal/api/user-sign/v2/blind-box/receive`, {}, { "rewardId": rewardId });
                     if (result.code != 0) throw new Error(result.msg);
                     $.log(`领取奖励: ${result.msg}`)
